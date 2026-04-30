@@ -1,0 +1,7 @@
+# 密钥泄露扫描（需本地安装 gitleaks：https://github.com/gitleaks/gitleaks）
+# 仅在 gitleaks 可用时执行，避免阻断未安装的开发者
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --config .gitleaks.toml --redact
+fi
+
+npx lint-staged

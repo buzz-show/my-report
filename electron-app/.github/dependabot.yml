@@ -1,0 +1,72 @@
+version: 2
+
+updates:
+  # ── npm 依赖自动更新 ────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Shanghai
+    # 每次最多开 5 个 PR，避免噪音
+    open-pull-requests-limit: 5
+    # PR 目标分支
+    target-branch: dev
+    labels:
+      - dependencies
+    # 按类型分组，减少 PR 数量
+    groups:
+      ai-sdk:
+        patterns:
+          - "openai"
+        update-types:
+          - minor
+          - patch
+      electron-core:
+        patterns:
+          - "electron"
+          - "electron-vite"
+          - "electron-builder"
+        update-types:
+          - minor
+          - patch
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react*"
+        update-types:
+          - minor
+          - patch
+      toolchain:
+        patterns:
+          - "typescript"
+          - "eslint*"
+          - "@typescript-eslint*"
+          - "prettier"
+          - "vite"
+          - "vitest"
+          - "@vitest*"
+          - "husky"
+          - "lint-staged"
+        update-types:
+          - minor
+          - patch
+    # 忽略 Electron 大版本升级（破坏性变更多，需手动评估）
+    ignore:
+      - dependency-name: "electron"
+        update-types: ["version-update:semver-major"]
+
+  # ── GitHub Actions 版本自动更新 ───────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Shanghai
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - github-actions

@@ -1,0 +1,11 @@
+# push 前扫描整个 git 历史（与 CI 行为完全一致）
+# 若 gitleaks 未安装则跳过并给出安装提示
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks detect --redact -v --exit-code=2 --config .gitleaks.toml
+else
+  echo "⚠ gitleaks 未安装，已跳过密钥扫描。"
+  echo "  安装方法（选其一）："
+  echo "    conda install -c conda-forge gitleaks"
+  echo "    brew install gitleaks"
+  echo "    官方下载：https://github.com/gitleaks/gitleaks/releases"
+fi

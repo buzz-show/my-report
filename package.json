@@ -1,0 +1,15 @@
+{
+  "name": "my-report",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Electron AI App + Python LangGraph Runtime (monorepo)",
+  "scripts": {
+    "dev:electron": "cd electron-app && npm run dev",
+    "dev:ai": "cd ai-runtime && .venv/bin/uvicorn ai_runtime.server:app --reload --port 18765",
+    "dev": "concurrently -n electron,ai-runtime -c cyan,green \"npm run dev:electron\" \"npm run dev:ai\"",
+    "install:all": "cd electron-app && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

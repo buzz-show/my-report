@@ -1,0 +1,136 @@
+name: Release
+
+on:
+  push:
+    # 推送 v* 格式的 tag 时触发：git tag v1.0.0 && git push --tags
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # 允许创建 GitHub Release 并上传产物
+
+jobs:
+  # ── 发布前安全检查（复用 CI 的扫描逻辑）─────────────────────
+  pre-release-check:
+    name: Pre-release Security Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          config-path: .gitleaks.toml
+
+  # ── 多平台构建矩阵 ──────────────────────────────────────────
+  build:
+    name: Build (${{ matrix.os }})
+    needs: pre-release-check
+    strategy:
+      fail-fast: false   # 某平台失败不取消其他平台
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            artifact: '*.AppImage'
+          - os: windows-latest
+            platform: win
+            artifact: '*.exe'
+          - os: macos-latest
+            platform: mac
+            artifact: '*.dmg'
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # macOS 代码签名：有证书则签名，无则跳过（开发测试用）
+      - name: Build & Package
+        run: npm run package
+        env:
+          OPENAI_API_KEY: sk-placeholder
+          # macOS 签名证书（可选，在 Secrets 中配置）
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          # Windows 签名（可选）
+          WIN_CSC_LINK: ${{ secrets.WIN_CERTIFICATE }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CERTIFICATE_PASSWORD }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-${{ matrix.platform }}
+          # electron-builder 默认输出到 dist/
+          path: dist/${{ matrix.artifact }}
+          retention-days: 3
+
+  # ── 创建 GitHub Release 并汇总所有平台产物 ───────────────────
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 下载所有平台的构建产物
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: dist-all/
+          pattern: dist-*
+          merge-multiple: false
+
+      # 从 tag 名提取版本号（v1.0.0 → 1.0.0）
+      - name: Extract version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      # 自动生成 Release Notes（从 git log 提取 Conventional Commits）
+      - name: Generate release notes
+        id: notes
+        run: |
+          PREV_TAG=$(git tag --sort=-version:refname | sed -n '2p')
+          if [ -z "$PREV_TAG" ]; then
+            RANGE="HEAD"
+          else
+            RANGE="${PREV_TAG}..HEAD"
+          fi
+
+          {
+            echo "notes<<EOF"
+            echo "## What's Changed"
+            echo ""
+            git log $RANGE --pretty="- %s (%h)" \
+              --grep="^feat\|^fix\|^perf\|^ai\|^prompt\|^tool" \
+              | head -50
+            echo ""
+            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREV_TAG}...${GITHUB_REF_NAME}"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "v${{ steps.version.outputs.version }}"
+          body: ${{ steps.notes.outputs.notes }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}  # v1.0.0-beta → prerelease
+          files: |
+            dist-all/**/*.AppImage
+            dist-all/**/*.exe
+            dist-all/**/*.dmg
