@@ -247,7 +247,7 @@ export default function App() {
                   周二，5 月 7 日
                 </p>
                 <h2 className="text-[32px] font-light leading-[1.1] tracking-[-0.03em] text-[var(--ink)] md:text-[36px]">
-                  今天先从<span className="font-medium text-[var(--petal)]">待办事实</span>开始。
+                  早安。<span className="font-medium text-[var(--petal)]">『田中米亚』</span>
                 </h2>
                 <p className="mt-1.5 max-w-3xl text-[14px] leading-6 text-[var(--ink-muted)]">
                   维护今日待办，补充进展和结果说明，再把这些事实直接整理成日报、周报和述职草稿。

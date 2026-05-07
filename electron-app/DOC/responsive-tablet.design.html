@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>交个代 - Tablet Responsive Design</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1c1614',
+          'ink-muted': '#6b5e5e',
+          'ink-faint': '#a49494',
+          petal: '#c4737a',
+          'petal-light': '#f2dde3',
+          'petal-xlight': '#fdf0f2',
+          teal: '#6d8f96',
+          'teal-light': '#cfe4e8',
+          'teal-xlight': '#eef5f7',
+          sand: '#f7f1ef'
+        },
+        boxShadow: {
+          lift: '0 4px 16px rgba(28,22,20,0.06), 0 8px 32px rgba(196,115,122,0.08)',
+          'lift-lg': '0 8px 40px rgba(28,22,20,0.08), 0 16px 56px rgba(196,115,122,0.12)'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #faf6f4;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(242,221,227,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 45% at 85% 90%, rgba(207,228,232,0.45) 0%, transparent 55%);
+    background-attachment: fixed;
+    color: #1c1614;
+    -webkit-font-smoothing: antialiased;
+  }
+  .glass {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+  }
+  .glass-deep {
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+  }
+  .petal-deco {
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(242,221,227,0.35) 0%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .nav-item {
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .nav-item:hover { transform: translateX(2px); }
+  .task-card {
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+  }
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(28,22,20,0.06), 0 8px 32px rgba(196,115,122,0.08);
+  }
+  .bubble-ai { border-radius: 18px 18px 18px 4px; }
+  .bubble-user { border-radius: 18px 18px 4px 18px; }
+  .orb-ring::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 999px;
+    border: 1px solid rgba(196,115,122,0.18);
+  }
+  .chat-panel {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 260ms cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .chat-panel[data-open='true'] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .scrim {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+  .scrim[data-open='true'] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+</head>
+<body>
+  <div class="relative min-h-screen overflow-hidden">
+    <div class="petal-deco -left-24 -top-28 opacity-60"></div>
+    <div class="petal-deco bottom-[-8rem] right-[-5rem] opacity-45"></div>
+
+    <div class="flex min-h-screen gap-4 p-4">
+      <aside class="glass-deep relative z-20 flex w-[86px] flex-shrink-0 flex-col items-center rounded-[32px] border border-[rgba(196,115,122,0.12)] py-5 shadow-lift-lg">
+        <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-br from-petal-light to-teal-xlight text-petal shadow-lift">
+          <span class="material-symbols-outlined" style="font-size:22px;font-variation-settings:'FILL' 1">spa</span>
+        </div>
+        <button class="nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] bg-petal-light text-petal">
+          <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 1">today</span>
+        </button>
+        <button class="nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] text-ink-faint hover:bg-petal-xlight hover:text-petal">
+          <span class="material-symbols-outlined" style="font-size:20px">event_upcoming</span>
+        </button>
+        <button class="nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] text-ink-faint hover:bg-petal-xlight hover:text-petal">
+          <span class="material-symbols-outlined" style="font-size:20px">summarize</span>
+        </button>
+        <button class="nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] text-ink-faint hover:bg-petal-xlight hover:text-petal">
+          <span class="material-symbols-outlined" style="font-size:20px">slideshow</span>
+        </button>
+        <div class="my-3 h-px w-9 bg-[rgba(196,115,122,0.12)]"></div>
+        <button class="nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] text-ink-faint hover:bg-petal-xlight hover:text-petal">
+          <span class="material-symbols-outlined" style="font-size:20px">folder_open</span>
+        </button>
+        <button class="nav-item mt-auto flex h-12 w-12 items-center justify-center rounded-[18px] text-ink-faint hover:bg-petal-xlight hover:text-petal">
+          <span class="material-symbols-outlined" style="font-size:20px">settings</span>
+        </button>
+      </aside>
+
+      <main class="relative z-10 flex min-w-0 flex-1 flex-col">
+        <header class="glass rounded-[32px] border border-[rgba(196,115,122,0.12)] px-6 py-6 shadow-lift">
+          <div class="flex items-start justify-between gap-6">
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-faint">Tablet Split Mode</p>
+              <h1 class="mt-2 text-[34px] font-light leading-[1.08] tracking-[-0.035em] text-ink">
+                早安。<span class="font-medium text-petal">『田中米亚』</span>
+              </h1>
+              <p class="mt-2 max-w-[560px] text-[14px] leading-6 text-ink-muted">
+                平板宽度保留左侧导航与主内容双栏，AI 交互收纳到右下角浮球里，在需要时再展开悬浮面板。
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="rounded-2xl border border-[rgba(196,115,122,0.12)] bg-white/76 px-4 py-2 text-[13px] text-ink-muted">筛选</button>
+              <button class="rounded-2xl bg-petal px-4 py-2 text-[13px] font-semibold text-white shadow-lift">新建今日待办</button>
+            </div>
+          </div>
+
+          <div class="mt-5 grid grid-cols-[repeat(3,minmax(0,1fr))_180px] gap-3">
+            <div class="glass rounded-[22px] border border-[rgba(196,115,122,0.1)] px-4 py-3">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-faint">已完成任务</p>
+              <p class="mt-1 text-[24px] font-semibold tracking-[-0.03em] text-ink">3 <span class="text-[14px] font-normal text-ink-faint">/ 7</span></p>
+            </div>
+            <div class="glass rounded-[22px] border border-[rgba(196,115,122,0.1)] px-4 py-3">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-faint">关键产出</p>
+              <p class="mt-1 text-[24px] font-semibold tracking-[-0.03em] text-ink">2 <span class="text-[14px] font-normal text-ink-faint">项</span></p>
+            </div>
+            <div class="glass rounded-[22px] border border-[rgba(196,115,122,0.1)] px-4 py-3">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-faint">深度专注</p>
+              <p class="mt-1 text-[24px] font-semibold tracking-[-0.03em] text-ink">2小时 <span class="text-[14px] font-normal text-ink-faint">14分</span></p>
+            </div>
+            <div class="glass rounded-[22px] border border-[rgba(196,115,122,0.1)] px-4 py-3">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-faint">AI 入口</p>
+              <p class="mt-1 text-[16px] font-semibold tracking-[-0.02em] text-ink">浮球悬浮</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="mt-4 grid min-h-0 flex-1 grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] gap-4">
+          <div class="min-h-0 space-y-4 overflow-y-auto pb-20">
+            <article class="glass rounded-[28px] border border-[rgba(196,115,122,0.1)] p-5 shadow-lift">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-petal">汇总中心预览</p>
+                  <h2 class="mt-2 text-[20px] font-medium leading-7 tracking-[-0.02em] text-ink">汇总卡片保留在主内容区，AI 对话则改为按需悬浮。</h2>
+                  <p class="mt-2 text-[14px] leading-6 text-ink-muted">这样平板模式仍能快速浏览任务与总结，不让第三栏长期占据横向空间。</p>
+                </div>
+                <button class="rounded-full bg-petal px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-lift">生成日报</button>
+              </div>
+            </article>
+
+            <div>
+              <div class="mb-3 flex items-center gap-3">
+                <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-ink-faint">进行中</p>
+                <div class="h-px flex-1 bg-[rgba(196,115,122,0.1)]"></div>
+                <span class="rounded-full bg-petal-xlight px-2 py-0.5 text-[10px] font-semibold text-petal">2 项进行中</span>
+              </div>
+
+              <article class="task-card glass rounded-[26px] border border-[rgba(196,115,122,0.1)] p-4 shadow-lift">
+                <div class="flex items-start gap-3">
+                  <button class="mt-0.5 h-5 w-5 rounded-full border-2 border-[rgba(196,115,122,0.4)]"></button>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-start justify-between gap-3">
+                      <h3 class="text-[16px] font-medium leading-6 tracking-[-0.015em] text-ink">设计首页三栏工作台首屏</h3>
+                      <span class="rounded-full bg-petal-xlight px-2.5 py-1 text-[10px] font-bold text-petal">高优先级</span>
+                    </div>
+                    <p class="mt-1.5 text-[14px] leading-6 text-ink-muted">平板模式下把 AI 交互压缩为悬浮入口，让任务列表和统计信息保持一屏完整感。</p>
+                    <div class="mt-3 rounded-[18px] bg-[rgba(196,115,122,0.06)] px-3 py-3 text-[13px] leading-6 text-ink-muted">
+                      <strong class="mr-1 text-petal">结果摘要</strong> 已完成平板分栏结构稿，正在细化右下角浮球与对话层的切换关系。
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="min-h-0 space-y-4 overflow-y-auto pb-20">
+            <article class="glass rounded-[28px] border border-[rgba(196,115,122,0.1)] p-5 shadow-lift">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-ink-faint">信息摘要</p>
+              <div class="mt-3 space-y-3">
+                <div class="rounded-[18px] bg-white/84 px-3.5 py-3 text-[14px] text-ink-muted">AI 面板从常驻三栏变成按需唤起的悬浮层。</div>
+                <div class="rounded-[18px] bg-white/84 px-3.5 py-3 text-[14px] text-ink-muted">主内容保持左右两区，不需要来回折叠导航。</div>
+                <div class="rounded-[18px] bg-white/84 px-3.5 py-3 text-[14px] text-ink-muted">浮球展开后，聊天面板覆盖在内容上方，不改变主排版宽度。</div>
+              </div>
+            </article>
+
+            <article class="glass rounded-[28px] border border-[rgba(196,115,122,0.1)] p-5 shadow-lift">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-ink-faint">未来任务</p>
+              <div class="mt-3 rounded-[20px] bg-[linear-gradient(135deg,rgba(253,240,242,0.92),rgba(238,245,247,0.86))] p-4">
+                <h3 class="text-[16px] font-medium tracking-[-0.015em] text-ink">下周周报生成入口联调</h3>
+                <p class="mt-2 text-[14px] leading-6 text-ink-muted">与右下角 AI 浮球联动，让周报生成也走同一套悬浮交互范式。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="scrim fixed inset-0 z-40 bg-[rgba(28,22,20,0.22)]" data-open="false" id="tabletScrim"></div>
+
+    <section class="chat-panel glass-deep fixed bottom-28 right-6 z-50 w-[360px] rounded-[30px] border border-[rgba(196,115,122,0.14)] p-4 shadow-lift-lg" data-open="false" id="tabletChat">
+      <div class="mb-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-petal-light via-[#f5e5e8] to-teal-xlight text-petal shadow-lift">
+            <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1">auto_awesome</span>
+          </div>
+          <div>
+            <p class="text-[14px] font-semibold tracking-[-0.01em] text-ink">代办官</p>
+            <p class="text-[11px] text-teal">平板悬浮聊天面板</p>
+          </div>
+        </div>
+        <button class="flex h-9 w-9 items-center justify-center rounded-2xl bg-[rgba(28,22,20,0.04)] text-ink-faint" id="tabletClose">
+          <span class="material-symbols-outlined" style="font-size:18px">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="bubble-ai border border-[rgba(196,115,122,0.12)] bg-white/88 px-3.5 py-3 shadow-lift">
+          <p class="text-[14px] leading-relaxed text-ink">我会把平板模式下最需要补充结果说明的任务先整理出来，再给你生成日报草稿。</p>
+        </div>
+        <div class="bubble-user ml-auto max-w-[88%] bg-petal px-3.5 py-3 text-white shadow-lift">
+          <p class="text-[14px] leading-relaxed">先列出今天还缺事实依据的地方。</p>
+        </div>
+        <div class="rounded-[22px] bg-[linear-gradient(135deg,rgba(253,240,242,0.92),rgba(238,245,247,0.86))] p-3.5">
+          <p class="text-[10px] font-bold uppercase tracking-[0.06em] text-petal">即时诊断</p>
+          <div class="mt-2 space-y-2 text-[13px] text-ink-muted">
+            <div class="flex items-center justify-between"><span>未补结果说明</span><strong class="text-ink">1 项</strong></div>
+            <div class="flex items-center justify-between"><span>未写下一步</span><strong class="text-ink">1 项</strong></div>
+            <div class="flex items-center justify-between"><span>日报可信度</span><strong class="text-petal">高</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <button class="orb-ring fixed bottom-7 right-6 z-50 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-[linear-gradient(135deg,#c4737a,#e8adb4)] text-white shadow-[0_18px_42px_rgba(196,115,122,0.35)]" id="tabletOrb">
+      <span class="material-symbols-outlined" style="font-size:26px;font-variation-settings:'FILL' 1">auto_awesome</span>
+    </button>
+  </div>
+
+  <script>
+    const tabletOrb = document.getElementById('tabletOrb')
+    const tabletChat = document.getElementById('tabletChat')
+    const tabletScrim = document.getElementById('tabletScrim')
+    const tabletClose = document.getElementById('tabletClose')
+
+    function setTabletOpen(open) {
+      tabletChat.dataset.open = String(open)
+      tabletScrim.dataset.open = String(open)
+    }
+
+    tabletOrb.addEventListener('click', () => setTabletOpen(tabletChat.dataset.open !== 'true'))
+    tabletClose.addEventListener('click', () => setTabletOpen(false))
+    tabletScrim.addEventListener('click', () => setTabletOpen(false))
+  </script>
+</body>
+</html>

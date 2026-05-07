@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>交个代 - Mobile Responsive Design</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1c1614',
+          'ink-muted': '#6b5e5e',
+          'ink-faint': '#a49494',
+          petal: '#c4737a',
+          'petal-light': '#f2dde3',
+          'petal-xlight': '#fdf0f2',
+          teal: '#6d8f96',
+          'teal-light': '#cfe4e8',
+          'teal-xlight': '#eef5f7',
+          sand: '#f7f1ef'
+        },
+        boxShadow: {
+          lift: '0 4px 16px rgba(28,22,20,0.06), 0 8px 32px rgba(196,115,122,0.08)',
+          'lift-lg': '0 8px 40px rgba(28,22,20,0.08), 0 16px 56px rgba(196,115,122,0.12)'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #faf6f4;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(242,221,227,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 45% at 85% 90%, rgba(207,228,232,0.45) 0%, transparent 55%);
+    background-attachment: fixed;
+    color: #1c1614;
+    -webkit-font-smoothing: antialiased;
+  }
+  .glass {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+  }
+  .glass-deep {
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+  }
+  .petal-deco {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(242,221,227,0.35) 0%, transparent 70%);
+    filter: blur(38px);
+    pointer-events: none;
+  }
+  .task-card {
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+  }
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(28,22,20,0.06), 0 8px 32px rgba(196,115,122,0.08);
+  }
+  .bubble-ai { border-radius: 18px 18px 18px 4px; }
+  .bubble-user { border-radius: 18px 18px 4px 18px; }
+  .orb-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 999px;
+    border: 1px solid rgba(196,115,122,0.18);
+  }
+  .page-view {
+    display: none;
+  }
+  .page-view[data-active='true'] {
+    display: block;
+  }
+</style>
+</head>
+<body>
+  <div class="relative min-h-screen overflow-hidden">
+    <div class="petal-deco -left-24 -top-24 opacity-60"></div>
+    <div class="petal-deco -bottom-24 right-[-4rem] opacity-50"></div>
+
+    <section class="page-view" data-active="true" id="mobileHome">
+      <main class="relative z-10 px-4 pb-20 pt-4">
+        <nav class="glass-deep rounded-[28px] border border-[rgba(196,115,122,0.12)] px-3 py-3 shadow-lift">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-[18px] bg-gradient-to-br from-petal-light to-teal-xlight text-petal shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+                <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 1">spa</span>
+              </div>
+              <div>
+                <p class="text-[14px] font-semibold tracking-[-0.02em] text-ink">交个代</p>
+                <p class="text-[10px] font-medium uppercase tracking-[0.06em] text-ink-faint">Mobile Stack Mode</p>
+              </div>
+            </div>
+            <button class="flex h-10 w-10 items-center justify-center rounded-2xl border border-[rgba(196,115,122,0.12)] bg-white/70 text-petal">
+              <span class="material-symbols-outlined" style="font-size:18px">add</span>
+            </button>
+          </div>
+
+          <div class="mt-4 flex items-center gap-2 overflow-x-auto pb-1">
+            <button class="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-petal-light text-petal shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+              <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 1">today</span>
+            </button>
+            <button class="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-white/72 text-ink-faint hover:bg-petal-xlight hover:text-petal">
+              <span class="material-symbols-outlined" style="font-size:20px">event_upcoming</span>
+            </button>
+            <button class="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-white/72 text-ink-faint hover:bg-petal-xlight hover:text-petal">
+              <span class="material-symbols-outlined" style="font-size:20px">summarize</span>
+            </button>
+            <button class="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-white/72 text-ink-faint hover:bg-petal-xlight hover:text-petal">
+              <span class="material-symbols-outlined" style="font-size:20px">slideshow</span>
+            </button>
+            <button class="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-white/72 text-ink-faint hover:bg-petal-xlight hover:text-petal">
+              <span class="material-symbols-outlined" style="font-size:20px">settings</span>
+            </button>
+          </div>
+        </nav>
+
+        <header class="glass mt-4 rounded-[28px] border border-[rgba(196,115,122,0.12)] px-5 py-5 shadow-lift">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-faint">Mobile Compact Mode</p>
+            <h1 class="mt-2 text-[28px] font-light leading-[1.06] tracking-[-0.035em] text-ink">
+              早安。<span class="font-medium text-petal">『田中米亚』</span>
+            </h1>
+            <p class="mt-2 max-w-[260px] text-[14px] leading-6 text-ink-muted">
+              导航栏和主内容上下堆叠，AI 入口收纳成右下角浮球，点击后直接进入独立聊天界面。
+            </p>
+          </div>
+          <button class="flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(196,115,122,0.12)] bg-white/70 text-petal">
+            <span class="material-symbols-outlined" style="font-size:18px">add</span>
+          </button>
+        </div>
+
+        <div class="mt-5 grid grid-cols-2 gap-3">
+          <div class="glass rounded-[20px] border border-[rgba(196,115,122,0.1)] px-4 py-3">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-faint">已完成任务</p>
+            <p class="mt-1 text-[24px] font-semibold tracking-[-0.03em] text-ink">3 <span class="text-[14px] font-normal text-ink-faint">/ 7</span></p>
+          </div>
+          <div class="glass rounded-[20px] border border-[rgba(196,115,122,0.1)] px-4 py-3">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-faint">关键产出</p>
+            <p class="mt-1 text-[24px] font-semibold tracking-[-0.03em] text-ink">2 <span class="text-[14px] font-normal text-ink-faint">项</span></p>
+          </div>
+        </div>
+      </header>
+
+      <section class="mt-4 space-y-4">
+        <article class="glass rounded-[26px] border border-[rgba(196,115,122,0.1)] p-4 shadow-lift">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-petal">汇总中心预览</p>
+              <h2 class="mt-2 text-[18px] font-medium leading-6 tracking-[-0.02em] text-ink">日报草稿会在移动端保持一键直达，但不常驻占位。</h2>
+            </div>
+            <button class="rounded-full bg-petal px-3 py-1.5 text-[12px] font-semibold text-white shadow-lift">生成</button>
+          </div>
+          <div class="mt-4 rounded-[20px] bg-[linear-gradient(135deg,rgba(253,240,242,0.86),rgba(238,245,247,0.82))] p-4">
+            <p class="text-[12px] leading-6 text-ink-muted">任务事实、结果摘要与未完成原因都会先压缩成可扫描摘要，避免手机端信息过载。</p>
+          </div>
+        </article>
+
+        <div>
+          <div class="mb-3 flex items-center gap-3">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-ink-faint">进行中</p>
+            <div class="h-px flex-1 bg-[rgba(196,115,122,0.1)]"></div>
+            <span class="rounded-full bg-petal-xlight px-2 py-0.5 text-[10px] font-semibold text-petal">2 项</span>
+          </div>
+
+          <article class="task-card glass rounded-[24px] border border-[rgba(196,115,122,0.1)] p-4 shadow-lift">
+            <div class="flex items-start gap-3">
+              <button class="mt-0.5 h-5 w-5 rounded-full border-2 border-[rgba(196,115,122,0.4)]"></button>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="text-[16px] font-medium leading-6 tracking-[-0.015em] text-ink">设计首页三栏工作台首屏</h3>
+                  <span class="rounded-full bg-petal-xlight px-2.5 py-1 text-[10px] font-bold text-petal">高优先级</span>
+                </div>
+                <p class="mt-1.5 text-[14px] leading-6 text-ink-muted">在小屏里把任务流、汇总预览与 AI 入口拉开主次，避免三栏信息挤压。</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <span class="rounded-lg bg-[rgba(28,22,20,0.05)] px-2.5 py-1 text-[12px] text-ink-muted">进行中</span>
+                  <span class="rounded-lg bg-teal-xlight px-2.5 py-1 text-[12px] text-teal">深度工作</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div>
+          <div class="mb-3 flex items-center gap-3">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.07em] text-ink-faint">待开始</p>
+            <div class="h-px flex-1 bg-[rgba(196,115,122,0.1)]"></div>
+          </div>
+
+          <article class="task-card glass rounded-[24px] border border-[rgba(196,115,122,0.1)] p-4 shadow-lift">
+            <div class="flex items-start gap-3">
+              <button class="mt-0.5 h-5 w-5 rounded-full border-2 border-[rgba(232,168,124,0.5)]"></button>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="text-[16px] font-medium leading-6 tracking-[-0.015em] text-ink">补齐汇总中心的引用来源说明</h3>
+                  <span class="rounded-full bg-[rgba(232,168,124,0.15)] px-2.5 py-1 text-[10px] font-bold text-[#c48240]">中优先级</span>
+                </div>
+                <p class="mt-1.5 text-[14px] leading-6 text-ink-muted">移动端只显示最关键的追溯摘要，完整来源通过 AI 抽屉查看。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+        <button class="orb-ring fixed bottom-6 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[linear-gradient(135deg,#c4737a,#e8adb4)] text-white shadow-[0_16px_40px_rgba(196,115,122,0.35)]" id="mobileOrb">
+          <span class="material-symbols-outlined" style="font-size:24px;font-variation-settings:'FILL' 1">auto_awesome</span>
+        </button>
+      </main>
+    </section>
+
+    <section class="page-view relative z-20 min-h-screen px-4 pb-6 pt-4" data-active="false" id="mobileChatView">
+      <div class="glass-deep flex min-h-[calc(100vh-2rem)] flex-col rounded-[32px] border border-[rgba(196,115,122,0.14)] shadow-lift-lg">
+        <div class="flex items-center justify-between border-b border-[rgba(196,115,122,0.1)] px-4 py-4">
+          <div class="flex items-center gap-3">
+            <button class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[rgba(28,22,20,0.04)] text-ink-faint" id="mobileBack">
+              <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+            </button>
+            <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-petal-light via-[#f5e5e8] to-teal-xlight text-petal shadow-lift">
+              <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1">auto_awesome</span>
+            </div>
+            <div>
+              <p class="text-[14px] font-semibold tracking-[-0.01em] text-ink">代办官</p>
+              <p class="text-[11px] text-teal">独立 AI 聊天界面</p>
+            </div>
+          </div>
+          <button class="rounded-full bg-petal-xlight px-3 py-1 text-[11px] font-semibold text-petal">今天</button>
+        </div>
+
+        <div class="flex-1 space-y-4 overflow-y-auto px-4 py-4">
+          <div class="bubble-ai max-w-[92%] border border-[rgba(196,115,122,0.12)] bg-white/88 px-3.5 py-3 shadow-lift">
+            <p class="text-[14px] leading-relaxed text-ink">我会优先展示今天最关键的两条任务和一条总结结论，降低手机端的阅读负担。</p>
+          </div>
+          <div class="bubble-user ml-auto max-w-[88%] bg-petal px-3.5 py-3 text-white shadow-lift">
+            <p class="text-[14px] leading-relaxed">那缺少结果说明的任务，也在这里提醒我。</p>
+          </div>
+          <div class="bubble-ai max-w-[92%] border border-[rgba(196,115,122,0.12)] bg-white/88 px-3.5 py-3 shadow-lift">
+            <p class="text-[14px] leading-relaxed text-ink">当前有 1 项任务未补结果说明，1 项任务还没写下一步计划。我可以继续帮你整理成日报草稿。</p>
+          </div>
+          <div class="rounded-[22px] bg-[linear-gradient(135deg,rgba(253,240,242,0.92),rgba(238,245,247,0.86))] p-3.5">
+            <p class="text-[10px] font-bold uppercase tracking-[0.06em] text-petal">今日提示</p>
+            <div class="mt-2 space-y-2 text-[13px] text-ink-muted">
+              <div class="flex items-center justify-between"><span>未补结果说明</span><strong class="text-ink">1 项</strong></div>
+              <div class="flex items-center justify-between"><span>阻塞待确认</span><strong class="text-ink">1 项</strong></div>
+              <div class="flex items-center justify-between"><span>可直接生成日报</span><strong class="text-petal">是</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-[rgba(196,115,122,0.1)] px-4 py-4">
+          <div class="glass rounded-[24px] border border-[rgba(196,115,122,0.14)] px-4 py-3 shadow-lift">
+            <p class="text-[14px] text-ink-faint">让代办官继续整理待办、补充进展或生成总结…</p>
+            <div class="mt-3 flex items-center justify-between">
+              <div class="flex items-center gap-2 text-ink-faint">
+                <span class="material-symbols-outlined" style="font-size:18px">attach_file</span>
+                <span class="material-symbols-outlined" style="font-size:18px">mic</span>
+              </div>
+              <button class="rounded-xl bg-petal px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-lift">发送</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const mobileOrb = document.getElementById('mobileOrb')
+    const mobileHome = document.getElementById('mobileHome')
+    const mobileChatView = document.getElementById('mobileChatView')
+    const mobileBack = document.getElementById('mobileBack')
+
+    function setMobileView(chat) {
+      mobileHome.dataset.active = String(!chat)
+      mobileChatView.dataset.active = String(chat)
+    }
+
+    mobileOrb.addEventListener('click', () => setMobileView(true))
+    mobileBack.addEventListener('click', () => setMobileView(false))
+  </script>
+</body>
+</html>
