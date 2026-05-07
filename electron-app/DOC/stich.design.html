@@ -1,280 +1,674 @@
 <!DOCTYPE html>
-
-<html lang="en"><head>
+<html lang="zh-CN">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Sakura Breeze - Daily Tasks</title>
+<title>交个代 — 待办驱动的工作总结工作台</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "secondary": "#526165",
-                        "outline-variant": "#d1c3c6",
-                        "on-primary": "#ffffff",
-                        "inverse-primary": "#d9c0c7",
-                        "on-background": "#1a1c1c",
-                        "on-tertiary": "#ffffff",
-                        "tertiary-fixed-dim": "#d5c3be",
-                        "primary": "#6c595f",
-                        "on-error-container": "#93000a",
-                        "on-primary-fixed": "#26181d",
-                        "on-tertiary-fixed": "#231916",
-                        "tertiary": "#695b57",
-                        "tertiary-fixed": "#f2ded9",
-                        "secondary-fixed": "#d5e5ea",
-                        "outline": "#7f7477",
-                        "on-secondary-fixed-variant": "#3a494d",
-                        "surface-container": "#eeeeee",
-                        "error": "#ba1a1a",
-                        "secondary-fixed-dim": "#b9c9ce",
-                        "inverse-surface": "#2f3131",
-                        "inverse-on-surface": "#f0f1f1",
-                        "background": "#f9f9f9",
-                        "on-tertiary-container": "#71625e",
-                        "surface": "#f9f9f9",
-                        "error-container": "#ffdad6",
-                        "surface-tint": "#6c595f",
-                        "on-secondary": "#ffffff",
-                        "surface-dim": "#dadada",
-                        "secondary-container": "#d5e5ea",
-                        "on-primary-container": "#746067",
-                        "surface-container-lowest": "#ffffff",
-                        "on-secondary-fixed": "#0f1e21",
-                        "on-error": "#ffffff",
-                        "primary-fixed-dim": "#d9c0c7",
-                        "on-secondary-container": "#58676b",
-                        "primary-fixed": "#f6dce3",
-                        "tertiary-container": "#f4e0db",
-                        "on-primary-fixed-variant": "#544248",
-                        "surface-variant": "#e2e2e2",
-                        "surface-container-low": "#f3f3f3",
-                        "on-surface": "#1a1c1c",
-                        "surface-bright": "#f9f9f9",
-                        "primary-container": "#f8dee5",
-                        "surface-container-high": "#e8e8e8",
-                        "surface-container-highest": "#e2e2e2",
-                        "on-tertiary-fixed-variant": "#514440",
-                        "on-surface-variant": "#4e4447"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "xl": "64px",
-                        "sm": "16px",
-                        "gutter": "24px",
-                        "xs": "8px",
-                        "margin": "32px",
-                        "lg": "40px",
-                        "base": "4px",
-                        "md": "24px"
-                    },
-                    "fontFamily": {
-                        "label-lg": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "headline-sm": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "body-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
-                        "headline-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "300" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
-                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
-                        "headline-md": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
-                    }
-                }
-            }
-        }
-    </script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          'ink':           '#1c1614',
+          'ink-muted':     '#6b5e5e',
+          'ink-faint':     '#a49494',
+          'petal':         '#c4737a',
+          'petal-light':   '#f2dde3',
+          'petal-xlight':  '#fdf0f2',
+          'blossom':       '#e8adb4',
+          'teal':          '#6d8f96',
+          'teal-light':    '#cfe4e8',
+          'teal-xlight':   '#eef5f7',
+          'sand':          '#f7f1ef',
+          'surface':       '#ffffff',
+          'surface-hover': '#fdf8f7',
+          'border':        'rgba(196,115,122,0.12)',
+          'border-strong': 'rgba(196,115,122,0.24)',
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+        },
+        fontSize: {
+          'display':  ['52px', { lineHeight: '56px', letterSpacing: '-0.03em', fontWeight: '300' }],
+          'title-xl': ['28px', { lineHeight: '34px', letterSpacing: '-0.02em', fontWeight: '500' }],
+          'title-lg': ['20px', { lineHeight: '26px', letterSpacing: '-0.015em', fontWeight: '500' }],
+          'title':    ['16px', { lineHeight: '22px', letterSpacing: '-0.01em', fontWeight: '500' }],
+          'body':     ['14px', { lineHeight: '21px', fontWeight: '400' }],
+          'caption':  ['12px', { lineHeight: '16px', letterSpacing: '0.02em', fontWeight: '500' }],
+          'micro':    ['10px', { lineHeight: '14px', letterSpacing: '0.06em', fontWeight: '600' }],
+        },
+        borderRadius: {
+          'xs':     '6px',
+          'sm':     '10px',
+          'DEFAULT':'14px',
+          'lg':     '20px',
+          'xl':     '28px',
+          'full':   '9999px',
+        },
+        boxShadow: {
+          'lift-sm': '0 1px 3px rgba(28,22,20,0.04), 0 4px 12px rgba(196,115,122,0.06)',
+          'lift':    '0 4px 16px rgba(28,22,20,0.06), 0 8px 32px rgba(196,115,122,0.08)',
+          'lift-lg': '0 8px 40px rgba(28,22,20,0.08), 0 16px 56px rgba(196,115,122,0.12)',
+        },
+      }
+    }
+  }
+</script>
 <style>
-        body {
-            background-image: radial-gradient(circle at top right, #f6dce3 0%, transparent 40%), radial-gradient(circle at bottom left, #d5e5ea 0%, transparent 40%);
-            background-color: #f9f9f9;
-            background-attachment: fixed;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 24px rgba(108, 89, 95, 0.05);
-        }
-    </style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #faf6f4;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(242,221,227,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 45% at 85% 90%, rgba(207,228,232,0.45) 0%, transparent 55%);
+    background-attachment: fixed;
+    color: #1c1614;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(196,115,122,0.25); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(196,115,122,0.45); }
+
+  .glass {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+  }
+  .glass-deep {
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+  }
+
+  .priority-high { border-left: 3px solid #c4737a; }
+  .priority-med  { border-left: 3px solid #e8a87c; }
+  .priority-low  { border-left: 3px solid #7faa96; }
+
+  .task-card {
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+  }
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(28,22,20,0.06), 0 8px 32px rgba(196,115,122,0.08);
+  }
+
+  .nav-item {
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .nav-item:hover { transform: translateX(3px); }
+
+  .bubble-ai   { border-radius: 18px 18px 18px 4px; }
+  .bubble-user { border-radius: 18px 18px 4px 18px; }
+
+  .chip { transition: background 0.15s, color 0.15s, box-shadow 0.15s; }
+  .chip:hover {
+    background: rgba(196,115,122,0.12);
+    color: #c4737a;
+    box-shadow: 0 0 0 1px rgba(196,115,122,0.24);
+  }
+
+  .stat-card { transition: box-shadow 0.18s ease; }
+  .stat-card:hover { box-shadow: 0 2px 12px rgba(196,115,122,0.14); }
+
+  .petal-deco {
+    position: absolute;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(242,221,227,0.35) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(40px);
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.3; transform: scale(0.85); }
+    50%       { opacity: 1;   transform: scale(1); }
+  }
+  .dot-1 { animation: pulse-dot 1.4s ease-in-out infinite 0ms; }
+  .dot-2 { animation: pulse-dot 1.4s ease-in-out infinite 220ms; }
+  .dot-3 { animation: pulse-dot 1.4s ease-in-out infinite 440ms; }
+</style>
 </head>
-<body class="text-on-background font-body-md h-screen overflow-hidden flex">
-<!-- SideNavBar -->
-<aside class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl h-screen w-72 fixed left-0 top-0 z-40 shadow-xl shadow-rose-200/10 dark:shadow-none flex flex-col p-6 gap-y-2 h-full">
-<!-- Header -->
-<div class="flex items-center gap-3 mb-8 px-2">
-<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
-<img alt="Sakura Breeze Logo" class="w-full h-full object-cover" data-alt="Soft pink cherry blossom flower close up macro shot bright airy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCACdGxToMA03_z80cAFnfx8TwWj_DCiAF2vLnMjB6jifGxwWS5TxRCv9f-BLT2AHn1J1MTJmV28qY8ZLxmZswuj4l65tsPHbqY_X-upgHolX6eNwlQr-Z63VFPiJWr5vabWDNQZYK9u9YaL4eiYL8wUfQ5mDP857j7AByAUOksqh-JyuGtumEUZPLoElLR3uzbvqpao58gSoOrCJkGlvhYbmMLzCedJzHB263AP6i-4dtE49h9grSwc3UljOZfHzEU9M-nrBunQY"/>
-</div>
-<div>
-<h1 class="text-lg font-medium text-rose-400 font-headline-sm text-headline-sm">Sakura Breeze</h1>
-<p class="font-sans text-sm tracking-tight text-stone-700 dark:text-stone-300 opacity-70">Renew your focus</p>
-</div>
-</div>
-<!-- CTA -->
-<button class="w-full bg-primary text-on-primary rounded-full py-3 mb-6 font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20">
-<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
-            New Task
+<body class="h-screen overflow-hidden flex select-none">
+
+<!-- ═══════════════════════════════════════════
+     SIDEBAR
+     ═══════════════════════════════════════════ -->
+<aside class="glass-deep relative z-40 flex flex-col w-64 h-screen border-r border-[rgba(196,115,122,0.1)] shadow-[1px_0_24px_rgba(28,22,20,0.04)]">
+
+  <div class="petal-deco -top-24 -left-24 opacity-60"></div>
+
+  <!-- Logo -->
+  <div class="flex items-center gap-3 px-6 pt-7 pb-6">
+    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-petal-light to-teal-xlight flex items-center justify-center shadow-lift-sm flex-shrink-0">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="3" fill="#c4737a" opacity="0.9"/>
+        <ellipse cx="10" cy="5" rx="2.2" ry="3.5" fill="#e8adb4" opacity="0.7" transform="rotate(0 10 10)"/>
+        <ellipse cx="10" cy="5" rx="2.2" ry="3.5" fill="#e8adb4" opacity="0.7" transform="rotate(72 10 10)"/>
+        <ellipse cx="10" cy="5" rx="2.2" ry="3.5" fill="#e8adb4" opacity="0.7" transform="rotate(144 10 10)"/>
+        <ellipse cx="10" cy="5" rx="2.2" ry="3.5" fill="#e8adb4" opacity="0.7" transform="rotate(216 10 10)"/>
+        <ellipse cx="10" cy="5" rx="2.2" ry="3.5" fill="#e8adb4" opacity="0.7" transform="rotate(288 10 10)"/>
+      </svg>
+    </div>
+    <div>
+      <h1 class="text-[15px] font-semibold tracking-[-0.02em] text-ink leading-tight">交个代</h1>
+      <p class="text-[11px] text-ink-faint font-medium tracking-[0.04em] uppercase">工作总结工作台</p>
+    </div>
+  </div>
+
+  <!-- New Task CTA -->
+  <div class="px-4 mb-5">
+    <button class="w-full flex items-center justify-center gap-2 bg-petal text-white rounded-xl py-2.5 text-[13px] font-semibold tracking-[-0.01em] shadow-[0_4px_16px_rgba(196,115,122,0.32)] hover:bg-[#b56870] transition-all hover:shadow-[0_6px_20px_rgba(196,115,122,0.4)] active:scale-[0.98]">
+      <span class="material-symbols-outlined" style="font-size:16px;font-variation-settings:'wght' 500">add</span>
+      新建今日待办
+    </button>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex flex-col gap-0.5 px-3 flex-1 overflow-y-auto">
+    <p class="px-3 pt-1 pb-2 text-[10px] font-semibold text-ink-faint uppercase tracking-[0.07em]">工作区</p>
+
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl bg-petal-light text-petal font-medium text-body relative overflow-hidden">
+      <span class="absolute inset-0 bg-gradient-to-r from-petal/8 to-transparent pointer-events-none"></span>
+      <span class="material-symbols-outlined text-petal" style="font-size:18px;font-variation-settings:'FILL' 1">today</span>
+      <span class="flex-1 font-semibold">今日任务</span>
+      <svg width="22" height="22" viewBox="0 0 22 22">
+        <circle cx="11" cy="11" r="8" fill="none" stroke="rgba(196,115,122,0.2)" stroke-width="2.5"/>
+        <circle cx="11" cy="11" r="8" fill="none" stroke="#c4737a" stroke-width="2.5"
+          stroke-linecap="round" stroke-dasharray="50.27" stroke-dashoffset="18"
+          transform="rotate(-90 11 11)"/>
+      </svg>
+    </a>
+
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight group">
+      <span class="material-symbols-outlined text-ink-faint group-hover:text-petal transition-colors" style="font-size:18px">event_upcoming</span>
+      <span class="flex-1">即将到来</span>
+      <span class="text-[10px] font-semibold bg-[rgba(232,168,124,0.15)] text-[#c48240] rounded-full px-2 py-0.5">7</span>
+    </a>
+
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight group">
+      <span class="material-symbols-outlined text-ink-faint group-hover:text-petal transition-colors" style="font-size:18px">summarize</span>
+      <span class="flex-1">汇总中心</span>
+      <span class="text-[10px] font-semibold bg-petal-xlight text-petal rounded-full px-2 py-0.5">日报</span>
+    </a>
+
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight group">
+      <span class="material-symbols-outlined text-ink-faint group-hover:text-petal transition-colors" style="font-size:18px">slideshow</span>
+      <span class="flex-1">述职工作台</span>
+    </a>
+
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight group">
+      <span class="material-symbols-outlined text-ink-faint group-hover:text-petal transition-colors" style="font-size:18px">folder_open</span>
+      <span>项目</span>
+    </a>
+
+    <div class="my-3 border-t border-[rgba(196,115,122,0.08)]"></div>
+    <p class="px-3 pb-2 text-[10px] font-semibold text-ink-faint uppercase tracking-[0.07em]">标签</p>
+
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight">
+      <span class="w-2.5 h-2.5 rounded-full bg-petal flex-shrink-0 ml-0.5"></span>深度工作
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight">
+      <span class="w-2.5 h-2.5 rounded-full bg-teal flex-shrink-0 ml-0.5"></span>会议协作
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#e8a87c] flex-shrink-0 ml-0.5"></span>规划推进
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#8b7f96] flex-shrink-0 ml-0.5"></span>风险问题
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="px-3 pb-5 pt-3 border-t border-[rgba(196,115,122,0.08)]">
+    <div class="flex items-center gap-3 px-3 py-2.5 mb-1 rounded-xl bg-gradient-to-r from-petal-xlight to-teal-xlight">
+      <div class="w-7 h-7 rounded-lg bg-white/70 flex items-center justify-center shadow-lift-sm flex-shrink-0">
+        <span class="material-symbols-outlined text-petal" style="font-size:15px">timer</span>
+      </div>
+      <div class="flex-1">
+        <p class="text-[11px] font-semibold text-ink tracking-[-0.01em]">专注计时器</p>
+        <p class="text-[10px] text-ink-faint">25 分钟 · 番茄工作法</p>
+      </div>
+      <button class="w-6 h-6 rounded-full bg-petal/15 flex items-center justify-center hover:bg-petal/25 transition-colors">
+        <span class="material-symbols-outlined text-petal" style="font-size:13px;font-variation-settings:'FILL' 1">play_arrow</span>
+      </button>
+    </div>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-ink-muted text-body hover:bg-petal-xlight group">
+      <span class="material-symbols-outlined text-ink-faint group-hover:text-petal transition-colors" style="font-size:18px">settings</span>设置
+    </a>
+    <div class="flex items-center gap-3 px-3 py-2.5 mt-1 rounded-xl hover:bg-petal-xlight cursor-pointer transition-colors group">
+      <div class="w-7 h-7 rounded-full bg-gradient-to-br from-petal-light to-teal-light flex items-center justify-center text-[11px] font-semibold text-petal flex-shrink-0">M</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-[13px] font-medium text-ink truncate">田中米亚</p>
+        <p class="text-[11px] text-ink-faint">专业版</p>
+      </div>
+      <span class="material-symbols-outlined text-ink-faint group-hover:text-petal transition-colors" style="font-size:16px">more_horiz</span>
+    </div>
+  </div>
+</aside>
+
+
+<!-- ═══════════════════════════════════════════
+     MAIN CANVAS
+     ═══════════════════════════════════════════ -->
+<main class="flex-1 flex h-screen overflow-hidden">
+
+  <!-- Central Task Column -->
+  <section class="flex-1 flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="flex items-center justify-between px-8 pt-8 pb-4 flex-shrink-0">
+      <div>
+        <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.08em] mb-1.5 flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size:12px">wb_sunny</span>
+          周二，5 月 7 日
+        </p>
+        <h2 class="text-[36px] font-light leading-[1.1] tracking-[-0.03em] text-ink">
+          今天先从<em class="font-medium not-italic text-petal">待办事实</em>开始。
+        </h2>
+        <p class="text-body text-ink-muted mt-1.5">维护今日待办，补充进展和结果说明，再把这些事实直接整理成日报、周报和述职草稿。</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[rgba(196,115,122,0.2)] text-ink-muted text-body hover:bg-petal-xlight hover:border-petal/30 transition-all">
+          <span class="material-symbols-outlined" style="font-size:16px">filter_list</span>筛选
         </button>
-<!-- Navigation Tabs -->
-<nav class="flex flex-col gap-1 flex-1 font-sans text-sm tracking-tight text-stone-700 dark:text-stone-300">
-<a class="text-stone-500 dark:text-stone-400 px-4 py-3 flex items-center gap-3 hover:bg-rose-50/40 dark:hover:bg-slate-800/40 rounded-full transition-all duration-300 hover:translate-x-1 duration-300 ease-in-out group" href="#">
-<span class="material-symbols-outlined group-hover:text-rose-400 transition-colors">inbox</span>
-                Inbox
-            </a>
-<a class="bg-rose-100/60 dark:bg-rose-900/30 text-rose-600 dark:text-rose-200 rounded-full px-4 py-3 flex items-center gap-3 hover:bg-rose-50/40 dark:hover:bg-slate-800/40 rounded-full transition-all duration-300 hover:translate-x-1 duration-300 ease-in-out group" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">today</span>
-<span class="font-semibold">Today</span>
-</a>
-<a class="text-stone-500 dark:text-stone-400 px-4 py-3 flex items-center gap-3 hover:bg-rose-50/40 dark:hover:bg-slate-800/40 rounded-full transition-all duration-300 hover:translate-x-1 duration-300 ease-in-out group" href="#">
-<span class="material-symbols-outlined group-hover:text-rose-400 transition-colors">event_upcoming</span>
-                Upcoming
-            </a>
-<a class="text-stone-500 dark:text-stone-400 px-4 py-3 flex items-center gap-3 hover:bg-rose-50/40 dark:hover:bg-slate-800/40 rounded-full transition-all duration-300 hover:translate-x-1 duration-300 ease-in-out group" href="#">
-<span class="material-symbols-outlined group-hover:text-rose-400 transition-colors">folder_open</span>
-                Projects
-            </a>
-</nav>
-<!-- Footer Tabs -->
-<div class="mt-auto border-t border-rose-50/50 pt-4 flex flex-col gap-1 font-sans text-sm tracking-tight text-stone-700 dark:text-stone-300">
-<a class="text-stone-500 dark:text-stone-400 px-4 py-3 flex items-center gap-3 hover:bg-rose-50/40 dark:hover:bg-slate-800/40 rounded-full transition-all duration-300 hover:translate-x-1 duration-300 ease-in-out group" href="#">
-<span class="material-symbols-outlined group-hover:text-rose-400 transition-colors">help_outline</span>
-                Help
-            </a>
-<a class="text-stone-500 dark:text-stone-400 px-4 py-3 flex items-center gap-3 hover:bg-rose-50/40 dark:hover:bg-slate-800/40 rounded-full transition-all duration-300 hover:translate-x-1 duration-300 ease-in-out group" href="#">
-<span class="material-symbols-outlined group-hover:text-rose-400 transition-colors">settings</span>
-                Settings
-            </a>
-</div>
-</aside>
-<!-- Main Canvas -->
-<main class="ml-72 flex-1 flex h-full p-gutter gap-gutter overflow-hidden relative">
-<!-- Central Task Area -->
-<section class="flex-1 flex flex-col overflow-y-auto pr-4 custom-scrollbar">
-<header class="mb-lg pt-4">
-<h2 class="font-headline-lg text-headline-lg text-on-background mb-2">Good morning, Mia</h2>
-<p class="font-body-lg text-body-lg text-on-surface-variant flex items-center gap-2">
-<span class="material-symbols-outlined text-outline">wb_sunny</span>
-                    It's a beautiful Tuesday. Let's make it count.
-                </p>
-</header>
-<div class="space-y-4">
-<!-- Task Card 1 -->
-<article class="glass-panel rounded-xl p-sm flex items-start gap-4 transition-transform hover:-translate-y-1 duration-300 cursor-pointer">
-<button class="mt-1 w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center hover:border-primary transition-colors">
-<!-- Unchecked -->
-</button>
-<div class="flex-1">
-<h3 class="font-headline-sm text-headline-sm text-on-background mb-1">Review Q3 Marketing Strategy</h3>
-<p class="font-body-md text-body-md text-on-surface-variant mb-3">Focus on the organic reach metrics and community engagement proposals.</p>
-<div class="flex items-center gap-3">
-<span class="font-label-sm text-label-sm bg-primary-container text-on-primary-container px-3 py-1 rounded-full flex items-center gap-1">
-<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
-                                10:00 AM
-                            </span>
-<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full">Deep Work</span>
-</div>
-</div>
-</article>
-<!-- Task Card 2 -->
-<article class="glass-panel rounded-xl p-sm flex items-start gap-4 transition-transform hover:-translate-y-1 duration-300 cursor-pointer">
-<button class="mt-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
-</button>
-<div class="flex-1 opacity-60">
-<h3 class="font-headline-sm text-headline-sm text-on-background mb-1 line-through">Weekly Sync with Design Team</h3>
-<p class="font-body-md text-body-md text-on-surface-variant mb-3">Discuss the new component library updates.</p>
-</div>
-</article>
-<!-- Task Card 3 -->
-<article class="glass-panel rounded-xl p-sm flex items-start gap-4 transition-transform hover:-translate-y-1 duration-300 cursor-pointer">
-<button class="mt-1 w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center hover:border-primary transition-colors">
-<!-- Unchecked -->
-</button>
-<div class="flex-1">
-<h3 class="font-headline-sm text-headline-sm text-on-background mb-1">Draft Content for Sakura Release</h3>
-<div class="flex items-center gap-3 mt-3">
-<span class="font-label-sm text-label-sm bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full flex items-center gap-1">
-<span class="material-symbols-outlined" style="font-size: 14px;">flag</span>
-                                High Priority
-                            </span>
-</div>
-</div>
-</article>
-</div>
-</section>
-<!-- AI Assistant Panel (Right) -->
-<aside class="w-[380px] h-full flex flex-col glass-panel rounded-2xl overflow-hidden shadow-lg border border-white/40">
-<!-- AI Header -->
-<div class="bg-white/40 backdrop-blur-md border-b border-white/50 p-sm flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-container to-secondary-container flex items-center justify-center text-primary">
-<span class="material-symbols-outlined" style="font-size: 20px;">auto_awesome</span>
-</div>
-<div>
-<h3 class="font-label-lg text-label-lg text-on-background">Sakura Guide</h3>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Always here to help</p>
-</div>
-</div>
-<button class="text-outline hover:text-primary transition-colors">
-<span class="material-symbols-outlined">more_horiz</span>
-</button>
-</div>
-<!-- Chat Area -->
-<div class="flex-1 overflow-y-auto p-sm flex flex-col gap-4">
-<!-- AI Message -->
-<div class="flex items-start gap-3">
-<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center mt-1 flex-shrink-0">
-<span class="material-symbols-outlined text-primary" style="font-size: 14px;">auto_awesome</span>
-</div>
-<div class="bg-white/80 rounded-2xl rounded-tl-sm p-3 shadow-sm border border-white max-w-[85%]">
-<p class="font-body-md text-body-md text-on-background">I noticed your "Review Q3 Strategy" task is coming up. Would you like me to pull up the recent analytics report?</p>
-</div>
-</div>
-<!-- User Message -->
-<div class="flex items-start gap-3 justify-end">
-<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm p-3 shadow-sm max-w-[85%]">
-<p class="font-body-md text-body-md">Yes, please. And summarize the key points on user retention.</p>
-</div>
-</div>
-<!-- AI Message Loading -->
-<div class="flex items-start gap-3">
-<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center mt-1 flex-shrink-0">
-<span class="material-symbols-outlined text-primary" style="font-size: 14px;">auto_awesome</span>
-</div>
-<div class="bg-white/80 rounded-2xl rounded-tl-sm p-3 shadow-sm border border-white flex items-center gap-1">
-<div class="w-1.5 h-1.5 rounded-full bg-primary/40 animate-pulse"></div>
-<div class="w-1.5 h-1.5 rounded-full bg-primary/40 animate-pulse" style="animation-delay: 150ms"></div>
-<div class="w-1.5 h-1.5 rounded-full bg-primary/40 animate-pulse" style="animation-delay: 300ms"></div>
-</div>
-</div>
-</div>
-<!-- Input Area -->
-<div class="p-sm bg-white/50 border-t border-white/50 backdrop-blur-md">
-<div class="relative flex items-center">
-<input class="w-full bg-white/70 border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-full py-3 pl-4 pr-12 font-body-md text-body-md text-on-background placeholder:text-outline outline-none transition-all shadow-inner" placeholder="Ask Sakura..." type="text"/>
-<button class="absolute right-2 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary/90 transition-colors">
-<span class="material-symbols-outlined" style="font-size: 18px;">arrow_upward</span>
-</button>
-</div>
-</div>
-</aside>
+        <button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[rgba(196,115,122,0.2)] text-ink-muted text-body hover:bg-petal-xlight hover:border-petal/30 transition-all">
+          <span class="material-symbols-outlined" style="font-size:16px">summarize</span>汇总入口
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats Strip -->
+    <div class="flex items-stretch gap-3 px-8 pb-5 flex-shrink-0">
+      <div class="stat-card flex-1 glass rounded-xl px-4 py-3 border border-[rgba(196,115,122,0.1)] flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-petal-light flex items-center justify-center">
+          <span class="material-symbols-outlined text-petal" style="font-size:16px;font-variation-settings:'FILL' 1">task_alt</span>
+        </div>
+        <div>
+          <p class="text-[22px] font-semibold text-ink leading-none tracking-[-0.02em]">3 <span class="text-body text-ink-faint font-normal">/ 7</span></p>
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.05em] mt-0.5">已完成任务</p>
+        </div>
+      </div>
+      <div class="stat-card flex-1 glass rounded-xl px-4 py-3 border border-[rgba(196,115,122,0.1)] flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-teal-xlight flex items-center justify-center">
+          <span class="material-symbols-outlined text-teal" style="font-size:16px">lightbulb</span>
+        </div>
+        <div>
+          <p class="text-[22px] font-semibold text-ink leading-none tracking-[-0.02em]">2 <span class="text-body text-ink-faint font-normal">项</span></p>
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.05em] mt-0.5">关键产出</p>
+        </div>
+      </div>
+      <div class="stat-card flex-1 glass rounded-xl px-4 py-3 border border-[rgba(196,115,122,0.1)] flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-[rgba(232,168,124,0.15)] flex items-center justify-center">
+          <span class="material-symbols-outlined text-[#c48240]" style="font-size:16px;font-variation-settings:'FILL' 1">timer</span>
+        </div>
+        <div>
+          <p class="text-[22px] font-semibold text-ink leading-none tracking-[-0.02em]">2小时 <span class="text-body text-ink-faint font-normal">14分</span></p>
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.05em] mt-0.5">深度专注</p>
+        </div>
+      </div>
+      <div class="stat-card glass rounded-xl px-4 py-3 border border-[rgba(196,115,122,0.1)] flex items-center gap-4 w-48">
+        <div class="relative w-12 h-12 flex-shrink-0">
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="19" fill="none" stroke="rgba(196,115,122,0.15)" stroke-width="4"/>
+            <circle cx="24" cy="24" r="19" fill="none" stroke="#c4737a" stroke-width="4"
+              stroke-linecap="round" stroke-dasharray="119.38" stroke-dashoffset="40"
+              transform="rotate(-90 24 24)"/>
+          </svg>
+          <span class="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-petal">日报</span>
+        </div>
+        <div>
+          <p class="text-title text-ink font-semibold">立即生成</p>
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.05em]">今日总结</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-8 pb-5 flex-shrink-0">
+      <div class="glass rounded-xl border border-[rgba(196,115,122,0.1)] p-4 shadow-lift-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-[10px] font-semibold text-petal uppercase tracking-[0.07em] mb-1.5">汇总中心预览</p>
+            <h3 class="text-title-lg text-ink">日报草稿会基于任务状态、结果说明和未完成原因自动生成。</h3>
+            <p class="text-body text-ink-muted mt-1.5">默认结构包含今日完成、关键产出、未完成事项及原因、明日计划，并支持查看引用来源任务。</p>
+          </div>
+          <button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-petal text-white text-body font-medium shadow-[0_4px_16px_rgba(196,115,122,0.26)] hover:bg-[#b56870] transition-all active:scale-[0.98] flex-shrink-0">
+            <span class="material-symbols-outlined" style="font-size:16px">auto_awesome</span>生成日报
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task List -->
+    <div class="flex-1 overflow-y-auto px-8 pb-8 space-y-6">
+
+      <!-- Pending -->
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.07em]">待开始</p>
+          <div class="flex-1 border-t border-[rgba(196,115,122,0.1)]"></div>
+          <span class="text-[10px] font-semibold text-petal bg-petal-xlight rounded-full px-2 py-0.5">2 项待开始</span>
+        </div>
+        <div class="space-y-2.5">
+
+          <article class="task-card glass rounded-xl p-4 priority-high cursor-pointer flex items-start gap-4 border border-[rgba(196,115,122,0.1)] hover:border-[rgba(196,115,122,0.22)]">
+            <button class="mt-0.5 w-5 h-5 rounded-full border-2 border-[rgba(196,115,122,0.4)] hover:border-petal hover:bg-petal-xlight transition-all flex-shrink-0"></button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-3 mb-1.5">
+                <h3 class="text-title text-ink">整理 AI 运行时的任务回放链路</h3>
+                <span class="text-[10px] font-bold text-petal bg-petal-xlight rounded-full px-2.5 py-1 flex-shrink-0">高优先级</span>
+              </div>
+              <p class="text-body text-ink-muted mb-3 leading-relaxed">明确任务事实如何沉淀到日报、周报与述职草稿的引用来源中。</p>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="flex items-center gap-1.5 text-caption text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-lg px-2.5 py-1">
+                  <span class="material-symbols-outlined" style="font-size:13px">schedule</span>09:30 - 11:00
+                </span>
+                <span class="text-caption text-teal bg-teal-xlight rounded-lg px-2.5 py-1">深度工作</span>
+                <span class="text-caption text-ink-muted bg-[rgba(28,22,20,0.04)] rounded-lg px-2.5 py-1">约 90 分钟</span>
+                <span class="text-caption text-[#c48240] bg-[rgba(232,168,124,0.12)] rounded-lg px-2.5 py-1">规划推进</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="task-card glass rounded-xl p-4 priority-med cursor-pointer flex items-start gap-4 border border-[rgba(196,115,122,0.1)] hover:border-[rgba(196,115,122,0.22)]">
+            <button class="mt-0.5 w-5 h-5 rounded-full border-2 border-[rgba(232,168,124,0.5)] hover:border-[#e8a87c] hover:bg-[rgba(232,168,124,0.1)] transition-all flex-shrink-0"></button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-3 mb-1.5">
+                <h3 class="text-title text-ink">补齐汇总中心的引用来源说明</h3>
+                <span class="text-[10px] font-bold text-[#c48240] bg-[rgba(232,168,124,0.15)] rounded-full px-2.5 py-1 flex-shrink-0">中优先级</span>
+              </div>
+              <p class="text-body text-ink-muted mb-3">让每一段总结都能追溯到任务、进展和结果说明。</p>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="flex items-center gap-1.5 text-caption text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-lg px-2.5 py-1">
+                  <span class="material-symbols-outlined" style="font-size:13px">schedule</span>14:00 前
+                </span>
+                <span class="text-caption text-teal bg-teal-xlight rounded-lg px-2.5 py-1">会议协作</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- In Progress -->
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.07em]">进行中</p>
+          <div class="flex-1 border-t border-[rgba(196,115,122,0.1)]"></div>
+          <span class="text-[10px] font-semibold text-petal bg-petal-xlight rounded-full px-2 py-0.5">2 项进行中</span>
+        </div>
+        <div class="space-y-2.5">
+
+          <article class="task-card glass rounded-xl p-4 priority-high cursor-pointer flex items-start gap-4 border border-[rgba(196,115,122,0.1)] hover:border-[rgba(196,115,122,0.22)]">
+            <button class="mt-0.5 w-5 h-5 rounded-full border-2 border-[rgba(196,115,122,0.4)] hover:border-petal hover:bg-petal-xlight transition-all flex-shrink-0"></button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-3 mb-1.5">
+                <h3 class="text-title text-ink">设计首页三栏工作台首屏</h3>
+                <span class="text-[10px] font-bold text-petal bg-petal-xlight rounded-full px-2.5 py-1 flex-shrink-0">高优先级</span>
+              </div>
+              <p class="text-body text-ink-muted mb-3 leading-relaxed">统一统计条、任务区、汇总入口和 AI 面板的业务表达，形成首页工作台结构稿。</p>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="flex items-center gap-1.5 text-caption text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-lg px-2.5 py-1">
+                  <span class="material-symbols-outlined" style="font-size:13px">schedule</span>进行中
+                </span>
+                <span class="text-caption text-teal bg-teal-xlight rounded-lg px-2.5 py-1">深度工作</span>
+                <span class="text-caption text-ink-muted bg-[rgba(28,22,20,0.04)] rounded-lg px-2.5 py-1">约 90 分钟</span>
+              </div>
+              <div class="mt-3 rounded-lg bg-[rgba(196,115,122,0.06)] px-3 py-2.5">
+                <p class="text-[11px] font-semibold text-petal mb-1">结果摘要</p>
+                <p class="text-body text-ink-muted">已完成结构稿，正在统一今日任务与汇总中心之间的事实链路。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="task-card glass rounded-xl p-4 priority-med cursor-pointer flex items-start gap-4 border border-[rgba(196,115,122,0.1)] hover:border-[rgba(196,115,122,0.22)]">
+            <button class="mt-0.5 w-5 h-5 rounded-full border-2 border-[rgba(232,168,124,0.5)] hover:border-[#e8a87c] hover:bg-[rgba(232,168,124,0.1)] transition-all flex-shrink-0"></button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-3 mb-1.5">
+                <h3 class="text-title text-ink">补充完成任务的结果说明交互</h3>
+                <span class="text-[10px] font-bold text-[#c48240] bg-[rgba(232,168,124,0.15)] rounded-full px-2.5 py-1 flex-shrink-0">中优先级</span>
+              </div>
+              <p class="text-body text-ink-muted mb-3">在标记完成后引导用户补一句“完成了什么”或“产出了什么”，用于日报和周报引用。</p>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="flex items-center gap-1.5 text-caption text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-lg px-2.5 py-1">
+                  <span class="material-symbols-outlined" style="font-size:13px">schedule</span>下一步
+                </span>
+                <span class="text-caption text-[#8b7f96] bg-[rgba(139,127,150,0.12)] rounded-lg px-2.5 py-1">风险问题</span>
+              </div>
+              <div class="mt-3 rounded-lg bg-[rgba(196,115,122,0.06)] px-3 py-2.5">
+                <p class="text-[11px] font-semibold text-petal mb-1">阻塞问题</p>
+                <p class="text-body text-ink-muted">还需确认完成弹层里的结果说明如何同步进入 AI 总结提示词。</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Completed -->
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.07em]">已完成</p>
+          <div class="flex-1 border-t border-[rgba(196,115,122,0.1)]"></div>
+          <span class="text-[10px] font-semibold text-teal bg-teal-xlight rounded-full px-2 py-0.5">3 项已完成</span>
+        </div>
+        <div class="space-y-2.5">
+
+          <article class="task-card rounded-xl p-4 cursor-pointer flex items-start gap-4 bg-[rgba(255,255,255,0.45)] border border-[rgba(196,115,122,0.06)] opacity-60 hover:opacity-80 transition-opacity">
+            <button class="mt-0.5 w-5 h-5 rounded-full bg-teal flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white" style="font-size:13px;font-variation-settings:'wght' 600">check</span>
+            </button>
+            <div class="flex-1">
+              <h3 class="text-title text-ink-muted line-through">梳理日报结构与生成条件</h3>
+              <p class="text-body text-ink-faint mt-0.5">已明确今日完成、关键产出、未完成事项及明日计划四段式结构。</p>
+            </div>
+            <span class="text-caption text-ink-faint flex items-center gap-1 flex-shrink-0">
+              <span class="material-symbols-outlined" style="font-size:13px">check_circle</span>上午 8:40
+            </span>
+          </article>
+
+          <article class="task-card rounded-xl p-4 cursor-pointer flex items-start gap-4 bg-[rgba(255,255,255,0.45)] border border-[rgba(196,115,122,0.06)] opacity-60 hover:opacity-80 transition-opacity">
+            <button class="mt-0.5 w-5 h-5 rounded-full bg-teal flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white" style="font-size:13px;font-variation-settings:'wght' 600">check</span>
+            </button>
+            <div class="flex-1">
+              <h3 class="text-title text-ink-muted line-through">整理今日任务的引用来源字段</h3>
+              <p class="text-body text-ink-faint mt-0.5">已确定任务卡片要保留项目、优先级、预计时长和结果摘要。</p>
+            </div>
+            <span class="text-caption text-ink-faint flex items-center gap-1 flex-shrink-0">
+              <span class="material-symbols-outlined" style="font-size:13px">check_circle</span>上午 8:10
+            </span>
+          </article>
+
+          <article class="task-card rounded-xl p-4 cursor-pointer flex items-start gap-4 bg-[rgba(255,255,255,0.45)] border border-[rgba(196,115,122,0.06)] opacity-60 hover:opacity-80 transition-opacity">
+            <button class="mt-0.5 w-5 h-5 rounded-full bg-teal flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white" style="font-size:13px;font-variation-settings:'wght' 600">check</span>
+            </button>
+            <div class="flex-1">
+              <h3 class="text-title text-ink-muted line-through">补齐专注时长与总结入口关系</h3>
+              <p class="text-body text-ink-faint mt-0.5">专注时长已作为统计条和后续总结依据的一部分保留。</p>
+            </div>
+            <span class="text-caption text-ink-faint flex items-center gap-1 flex-shrink-0">
+              <span class="material-symbols-outlined" style="font-size:13px">check_circle</span>上午 7:55
+            </span>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Upcoming -->
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <p class="text-[10px] font-semibold text-ink-faint uppercase tracking-[0.07em]">即将到来</p>
+          <div class="flex-1 border-t border-[rgba(196,115,122,0.1)]"></div>
+        </div>
+        <div class="space-y-2.5">
+          <article class="task-card glass rounded-xl p-4 priority-low cursor-pointer flex items-start gap-4 border border-[rgba(196,115,122,0.08)] hover:border-[rgba(196,115,122,0.2)]">
+            <button class="mt-0.5 w-5 h-5 rounded-full border-2 border-[rgba(127,170,150,0.4)] hover:border-[#7faa96] transition-all flex-shrink-0"></button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-3 mb-1">
+                <h3 class="text-title text-ink">下周周报生成入口联调</h3>
+                <span class="text-caption text-ink-faint bg-[rgba(28,22,20,0.05)] rounded-lg px-2.5 py-1 flex-shrink-0">明天</span>
+              </div>
+              <p class="text-body text-ink-muted">串联未来 7 天任务与周报聚合规则，提前准备时间范围查询。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       AI ASSISTANT PANEL
+       ═══════════════════════════════════════════ -->
+  <aside class="w-[360px] h-full flex flex-col glass-deep border-l border-[rgba(196,115,122,0.1)] shadow-[-1px_0_24px_rgba(28,22,20,0.04)] relative overflow-hidden flex-shrink-0">
+
+    <div class="petal-deco -bottom-32 -right-32 opacity-40"></div>
+
+    <!-- Panel Header -->
+    <div class="px-5 pt-6 pb-4 border-b border-[rgba(196,115,122,0.1)] flex-shrink-0">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-3">
+          <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-petal-light via-[#f5e5e8] to-teal-xlight flex items-center justify-center shadow-lift-sm flex-shrink-0">
+            <span class="material-symbols-outlined text-petal" style="font-size:18px;font-variation-settings:'FILL' 1">auto_awesome</span>
+            <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-[#7faa96] rounded-full border-2 border-white shadow-sm"></span>
+          </div>
+          <div>
+            <h3 class="text-[14px] font-semibold text-ink tracking-[-0.01em]">代办官</h3>
+            <p class="text-[11px] text-teal font-medium">● 在线 · 正在整理你的今日工作</p>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-xl bg-[rgba(28,22,20,0.04)] flex items-center justify-center text-ink-faint hover:bg-petal-xlight hover:text-petal transition-all">
+          <span class="material-symbols-outlined" style="font-size:18px">more_horiz</span>
+        </button>
+      </div>
+      <!-- Context chips -->
+      <div class="flex gap-1.5 flex-wrap">
+        <button class="chip text-[11px] font-medium text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-xl px-3 py-1.5 border border-[rgba(28,22,20,0.06)]">总结今日</button>
+        <button class="chip text-[11px] font-medium text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-xl px-3 py-1.5 border border-[rgba(28,22,20,0.06)]">拆分待办</button>
+        <button class="chip text-[11px] font-medium text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-xl px-3 py-1.5 border border-[rgba(28,22,20,0.06)]">补充进展</button>
+        <button class="chip text-[11px] font-medium text-ink-muted bg-[rgba(28,22,20,0.05)] rounded-xl px-3 py-1.5 border border-[rgba(28,22,20,0.06)]">生成述职草稿</button>
+      </div>
+    </div>
+
+    <!-- Chat Thread -->
+    <div class="flex-1 overflow-y-auto px-5 py-5 space-y-4 relative z-10">
+
+      <!-- Date divider -->
+      <div class="flex items-center gap-3 my-1">
+        <div class="flex-1 border-t border-[rgba(196,115,122,0.1)]"></div>
+        <span class="text-[10px] font-semibold text-ink-faint bg-sand rounded-full px-2.5 py-1 border border-[rgba(196,115,122,0.08)]">今天 上午 9:12</span>
+        <div class="flex-1 border-t border-[rgba(196,115,122,0.1)]"></div>
+      </div>
+
+      <!-- AI message 1 -->
+      <div class="flex items-end gap-2.5 max-w-[92%]">
+        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-petal-light to-teal-xlight flex items-center justify-center flex-shrink-0 mb-0.5">
+          <span class="material-symbols-outlined text-petal" style="font-size:12px;font-variation-settings:'FILL' 1">auto_awesome</span>
+        </div>
+        <div>
+          <div class="bubble-ai bg-white/90 border border-[rgba(196,115,122,0.12)] shadow-lift-sm px-3.5 py-3">
+            <p class="text-body text-ink leading-relaxed">我已经整理出今天的任务状态、结果说明和阻塞信息。可以先生成日报草稿，再补齐未完成事项的原因。</p>
+          </div>
+          <p class="text-[10px] text-ink-faint mt-1 ml-1">上午 9:12</p>
+        </div>
+      </div>
+
+      <!-- User message -->
+      <div class="flex items-end justify-end gap-2.5 max-w-[92%] ml-auto">
+        <div>
+          <div class="bubble-user bg-petal text-white shadow-[0_4px_16px_rgba(196,115,122,0.28)] px-3.5 py-3">
+            <p class="text-body leading-relaxed">先帮我整理今天的关键产出，并告诉我哪些任务还缺结果说明或下一步计划。</p>
+          </div>
+          <p class="text-[10px] text-ink-faint mt-1 mr-1 text-right">上午 9:13</p>
+        </div>
+      </div>
+
+      <!-- AI message 2 with data card -->
+      <div class="flex items-end gap-2.5 max-w-[92%]">
+        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-petal-light to-teal-xlight flex items-center justify-center flex-shrink-0 mb-0.5">
+          <span class="material-symbols-outlined text-petal" style="font-size:12px;font-variation-settings:'FILL' 1">auto_awesome</span>
+        </div>
+        <div class="space-y-2">
+          <div class="bubble-ai bg-white/90 border border-[rgba(196,115,122,0.12)] shadow-lift-sm px-3.5 py-3">
+            <p class="text-body text-ink leading-relaxed">已完成汇总，以下是今日任务摘要：</p>
+          </div>
+          <div class="bg-gradient-to-br from-petal-xlight to-teal-xlight border border-[rgba(196,115,122,0.15)] rounded-xl p-3.5 shadow-lift-sm">
+            <p class="text-[10px] font-bold text-petal uppercase tracking-[0.06em] mb-2.5">今日任务汇总</p>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-caption text-ink-muted">已完成任务</span>
+                <span class="text-caption font-semibold text-teal">3 项</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-caption text-ink-muted">已补充结果说明</span>
+                <span class="text-caption font-semibold text-ink">2 项</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-caption text-ink-muted">进行中任务</span>
+                <span class="text-caption font-semibold text-[#7faa96]">2 项</span>
+              </div>
+              <div class="mt-2 pt-2 border-t border-[rgba(196,115,122,0.1)]">
+                <div class="flex justify-between mb-1">
+                  <span class="text-caption text-ink-muted">日报草稿可信度</span>
+                  <span class="text-caption font-medium text-petal">高</span>
+                </div>
+                <div class="w-full h-1.5 bg-[rgba(196,115,122,0.12)] rounded-full overflow-hidden">
+                  <div class="h-full bg-petal rounded-full" style="width:82%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-[10px] text-ink-faint ml-1">上午 9:14</p>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="flex items-end gap-2.5">
+        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-petal-light to-teal-xlight flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-petal" style="font-size:12px;font-variation-settings:'FILL' 1">auto_awesome</span>
+        </div>
+        <div class="bubble-ai bg-white/90 border border-[rgba(196,115,122,0.12)] shadow-lift-sm px-4 py-3.5 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-petal dot-1"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-petal dot-2"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-petal dot-3"></span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Input -->
+    <div class="px-4 pb-5 pt-3 border-t border-[rgba(196,115,122,0.1)] flex-shrink-0 relative z-10">
+      <div class="glass rounded-xl border border-[rgba(196,115,122,0.16)] shadow-lift-sm overflow-hidden">
+        <textarea rows="2" placeholder="让代办官整理待办、补充进展或生成总结…"
+          class="w-full bg-transparent text-body text-ink placeholder:text-ink-faint px-4 pt-3 pb-1 outline-none resize-none block leading-relaxed"></textarea>
+        <div class="flex items-center justify-between px-3 pb-2.5">
+          <div class="flex items-center gap-1">
+            <button class="w-7 h-7 rounded-lg flex items-center justify-center text-ink-faint hover:text-petal hover:bg-petal-xlight transition-all">
+              <span class="material-symbols-outlined" style="font-size:16px">attach_file</span>
+            </button>
+            <button class="w-7 h-7 rounded-lg flex items-center justify-center text-ink-faint hover:text-petal hover:bg-petal-xlight transition-all">
+              <span class="material-symbols-outlined" style="font-size:16px">mic</span>
+            </button>
+          </div>
+          <button class="flex items-center gap-1.5 bg-petal text-white rounded-xl px-3.5 py-1.5 text-caption font-semibold hover:bg-[#b56870] transition-all shadow-[0_2px_8px_rgba(196,115,122,0.35)] hover:shadow-[0_4px_12px_rgba(196,115,122,0.45)] active:scale-[0.97]">
+            <span class="material-symbols-outlined" style="font-size:15px;font-variation-settings:'wght' 500">send</span>
+            发送
+          </button>
+        </div>
+      </div>
+      <p class="text-[10px] text-ink-faint text-center mt-2">代办官 · 由 GPT-4o 驱动</p>
+    </div>
+  </aside>
+
 </main>
 </body></html>
