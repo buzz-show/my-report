@@ -16,7 +16,7 @@ export default function SettingsPanel({ onClose }: Props) {
   const apiKeyRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    window.electronAPI.getSettings().then(view => {
+    window.electronAPI.settings.getSettings().then(view => {
       setApiKeyMasked(view.apiKeyMasked)
       setBaseURL(view.baseURL)
       setModel(view.model)
@@ -34,7 +34,7 @@ export default function SettingsPanel({ onClose }: Props) {
         baseURL,
         model,
       }
-      await window.electronAPI.saveSettings(payload)
+      await window.electronAPI.settings.saveSettings(payload)
       setSaved(true)
       setTimeout(() => {
         setSaved(false)

@@ -13,6 +13,9 @@ export const CHANNELS = {
   CHAT_TOOL_RESULT: 'chat:stream:tool-result',
   SETTINGS_GET: 'settings:get',
   SETTINGS_SAVE: 'settings:save',
+  AUTH_LOGIN: 'auth:login',
+  AUTH_LOGOUT: 'auth:logout',
+  AUTH_GET_SESSION: 'auth:getSession',
 } as const
 
 export type Channel = (typeof CHANNELS)[keyof typeof CHANNELS]

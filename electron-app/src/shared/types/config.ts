@@ -25,3 +25,23 @@ export interface SettingsSavePayload {
   baseURL: string
   model: string
 }
+
+/**
+ * renderer 登录/注册时提交的凭证（邮箱 + 密码）
+ * 后端采用 upsert 语义：邮箱不存在则自动注册，存在则校验密码登录
+ */
+export interface LoginPayload {
+  email: string
+  password: string
+}
+
+/**
+ * renderer 可见的当前会话信息 — 不含任何 token 字段
+ */
+export interface SessionView {
+  userId: string
+  email: string
+  displayName: string
+  role: string
+  loggedIn: boolean
+}

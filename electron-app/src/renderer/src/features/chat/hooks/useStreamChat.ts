@@ -22,15 +22,15 @@ export function useStreamChat() {
       addMessage({ role: 'assistant', content: '' })
       setStreaming(true)
 
-      const offChunk = window.electronAPI.onChunk(delta => {
+      const offChunk = window.electronAPI.chat.onChunk(delta => {
         updateLastAssistantMessage(delta)
       })
-      const offDone = window.electronAPI.onDone(() => {
+      const offDone = window.electronAPI.chat.onDone(() => {
         setStreaming(false)
         cleanupRef.current.forEach(fn => fn())
         cleanupRef.current = []
       })
-      const offError = window.electronAPI.onError(msg => {
+      const offError = window.electronAPI.chat.onError(msg => {
         const isNoApiKey = msg.includes('API Key 未配置') || msg.includes('API Key')
         const displayMsg = isNoApiKey
           ? `\n\n> **API Key 未配置。** 请点击右上角 ⚙ 设置图标，填写 API Key 后重试。`
@@ -40,16 +40,16 @@ export function useStreamChat() {
         cleanupRef.current.forEach(fn => fn())
         cleanupRef.current = []
       })
-      const offToolCall = window.electronAPI.onToolCall(({ id, name, args }) => {
+      const offToolCall = window.electronAPI.chat.onToolCall(({ id, name, args }) => {
         appendToolCallToLast([{ id, name, args }])
       })
-      const offToolResult = window.electronAPI.onToolResult(({ id, result }) => {
+      const offToolResult = window.electronAPI.chat.onToolResult(({ id, result }) => {
         updateToolCallResult(id, result)
       })
 
       cleanupRef.current = [offChunk, offDone, offError, offToolCall, offToolResult]
 
-      window.electronAPI.startStream([
+      window.electronAPI.chat.startStream([
         { role: 'system', content: systemPrompt },
         ...messages.map(({ role, content }) => ({ role, content })),
         { role: 'user', content: userInput },
