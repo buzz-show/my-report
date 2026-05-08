@@ -17,6 +17,7 @@ import { IpcMainEvent } from 'electron'
 import OpenAI from 'openai'
 
 import { CHANNELS } from '@shared/constants/ipc-channels'
+import { getValidAccessToken, refreshAccessToken } from '../auth/client'
 
 type Messages = OpenAI.ChatCompletionMessageParam[]
 
@@ -49,11 +50,7 @@ export async function runWithPythonRuntime(
     thread_id: `session-${Date.now()}`,
   })
 
-  const response = await fetch(`${baseUrl}/chat/stream`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body,
-  })
+  const response = await fetchChatStream(baseUrl, body)
 
   if (!response.ok) {
     const text = await response.text()
@@ -90,6 +87,35 @@ export async function runWithPythonRuntime(
       handleEvent(ev, event)
     }
   }
+}
+
+async function fetchChatStream(baseUrl: string, body: string): Promise<Response> {
+  const accessToken = await getValidAccessToken()
+  if (!accessToken) {
+    throw new Error('登录已过期，请重新登录')
+  }
+
+  const makeRequest = async (token: string): Promise<Response> => {
+    return fetch(`${baseUrl}/chat/stream`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body,
+    })
+  }
+
+  let response = await makeRequest(accessToken)
+  if (response.status === 401) {
+    const refreshedToken = await refreshAccessToken(true)
+    if (!refreshedToken) {
+      throw new Error('登录已过期，请重新登录')
+    }
+    response = await makeRequest(refreshedToken)
+  }
+
+  return response
 }
 
 function handleEvent(ev: Record<string, unknown>, ipc: IpcMainEvent): void {
