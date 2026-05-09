@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-@dataclass(slots=True)
-class UserRecord:
+@dataclass(frozen=True, slots=True)
+class User:
     id: str
     email: str
     display_name: str
@@ -15,8 +15,8 @@ class UserRecord:
     last_login_at: str | None
 
 
-@dataclass(slots=True)
-class RefreshSessionRecord:
+@dataclass(frozen=True, slots=True)
+class RefreshSession:
     id: str
     user_id: str
     access_token_hash: str
@@ -26,3 +26,6 @@ class RefreshSessionRecord:
     revoked_at: str | None
     created_at: str
     last_used_at: str
+
+
+__all__ = ['RefreshSession', 'User']
