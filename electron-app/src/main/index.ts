@@ -5,6 +5,7 @@ import { app, shell, BrowserWindow } from 'electron'
 import { config as dotenvConfig } from 'dotenv'
 
 import { registerAll } from './ipc/index'
+import { startPythonRuntime, stopPythonRuntime } from './ai/python-process'
 
 // 开发模式回退：从项目根目录的 .env 读取配置
 // 生产模式下此文件不存在，dotenv 静默忽略（silent: true 等价于 path 不存在时不报错）
@@ -59,12 +60,17 @@ function createWindow(): void {
 
 // app.whenReady() 是 Electron 应用的初始化完成阶段的生命钩子。触发时机：主进程启动，地层chromium环境初始化完毕
 // 在这个阶段resolve后，可以注册ipc处理器，创建窗口等操作。确保这些操作在Electron环境完全准备好后执行，避免潜在的错误和不稳定行为。
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await startPythonRuntime()
   registerAll()
   createWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+app.on('before-quit', () => {
+  stopPythonRuntime()
 })
 
 app.on('window-all-closed', () => {

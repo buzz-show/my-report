@@ -40,6 +40,12 @@
   "build": {
     "appId": "com.buzz.electron-react-ai-template",
     "productName": "Electron React AI Template",
+    "extraResources": [
+      {
+        "from": "../ai-runtime/dist/ai-runtime",
+        "to": "ai-runtime"
+      }
+    ],
     "linux": {
       "target": [
         "AppImage"
