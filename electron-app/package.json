@@ -16,6 +16,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "electron-vite build && playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report e2e/report",
     "scan": "gitleaks detect --redact -v --exit-code=2 --config .gitleaks.toml",
     "prepare": "husky"
   },
@@ -25,6 +28,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
+    "react-router-dom": "^7.15.1",
     "remark-gfm": "^4.0.0",
     "zustand": "^4.5.2"
   },
@@ -71,6 +75,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
+    "@playwright/test": "^1.60.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20.12.0",
@@ -92,6 +97,7 @@
     "husky": "^9.1.7",
     "jsdom": "^29.1.0",
     "lint-staged": "^16.4.0",
+    "playwright": "^1.60.0",
     "postcss": "^8.4.38",
     "prettier": "^3.8.3",
     "tailwindcss": "^3.4.3",

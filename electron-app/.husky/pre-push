@@ -9,3 +9,9 @@ else
   echo "    brew install gitleaks"
   echo "    官方下载：https://github.com/gitleaks/gitleaks/releases"
 fi
+
+# E2E 测试（较慢，阻断推送）
+cd "$(git rev-parse --show-toplevel)/electron-app" && npm run test:e2e || {
+  echo "E2E 测试失败，查看报告：electron-app/e2e/report/index.html"
+  exit 1
+}

@@ -1,2 +1,7 @@
 node_modules/
 .vscode/settings.json
+ai-runtime/ai_runtime/.data/
+electron-app/test-results/
+electron-app/coverage/
+.pytest_cache/
+__pycache__/

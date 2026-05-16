@@ -5,3 +5,6 @@ if command -v gitleaks >/dev/null 2>&1; then
 fi
 
 npx lint-staged
+
+# 单元测试（快速，阻断提交）
+npm --prefix "$(git rev-parse --show-toplevel)/electron-app" test

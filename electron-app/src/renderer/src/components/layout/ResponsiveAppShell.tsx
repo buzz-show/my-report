@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
-
-import { DesktopAiPanel, FloatingAiOrb, MainTaskWorkspace, MobileAiChatScreen, NavigationPanel, TabletAiOverlay } from '@renderer/features/home/HomeUI'
+import { Outlet } from 'react-router-dom'
+import {
+  FloatingAiOrb,
+  MobileAiChatScreen,
+  NavigationPanel,
+  TabletAiOverlay,
+} from '@renderer/features/home/HomeUI'
+import ChatPanel from '@renderer/features/chat/components/ChatPanel'
 
 import { useResponsiveLayout } from './useResponsiveLayout'
 
@@ -30,7 +36,7 @@ export function ResponsiveAppShell() {
         <main className="relative z-10 px-4 pb-20 pt-4">
           <NavigationPanel mode="mobile-top" />
           <div className="mt-4">
-            <MainTaskWorkspace mode="mobile" />
+            <Outlet />
           </div>
         </main>
 
@@ -48,12 +54,12 @@ export function ResponsiveAppShell() {
         <div className="flex min-h-screen gap-4 p-4">
           <NavigationPanel mode="tablet-rail" />
           <main className="relative z-10 flex min-w-0 flex-1 flex-col">
-            <MainTaskWorkspace mode="tablet" />
+            <Outlet />
           </main>
         </div>
 
         <TabletAiOverlay open={isTabletAiOpen} onClose={() => setIsTabletAiOpen(false)} />
-        <FloatingAiOrb onClick={() => setIsTabletAiOpen((open) => !open)} expanded={isTabletAiOpen} />
+        <FloatingAiOrb onClick={() => setIsTabletAiOpen(open => !open)} expanded={isTabletAiOpen} />
       </div>
     )
   }
@@ -63,8 +69,10 @@ export function ResponsiveAppShell() {
       <NavigationPanel mode="desktop-sidebar" />
 
       <main className="flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-hidden">
-        <MainTaskWorkspace mode="desktop" />
-        <DesktopAiPanel />
+        <Outlet />
+        <aside className="glass-deep relative flex w-full flex-col overflow-hidden border-t border-[rgba(196,115,122,0.1)] shadow-[0_-1px_24px_rgba(28,22,20,0.04)] lg:h-full lg:w-[360px] lg:flex-shrink-0 lg:border-l lg:border-t-0 lg:shadow-[-1px_0_24px_rgba(28,22,20,0.04)]">
+          <ChatPanel />
+        </aside>
       </main>
     </div>
   )

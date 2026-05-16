@@ -18,7 +18,7 @@ export type NavIconKey =
 export type NavItem = {
   label: string
   badge?: string
-  active?: boolean
+  path: string
   icon: NavIconKey
 }
 

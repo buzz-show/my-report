@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { ResponsiveAppShell } from '@renderer/components/layout/ResponsiveAppShell'
 import { LoginPage, useAuthStore } from './features/auth'
+import { AppRoutes } from './router'
 
 export default function App() {
   const { session, initializing, restoreSession } = useAuthStore()
@@ -38,7 +38,7 @@ export default function App() {
     return <LoginPage />
   }
 
-  return <ResponsiveAppShell />
+  return <AppRoutes />
 }
 
 function FlowerIcon() {

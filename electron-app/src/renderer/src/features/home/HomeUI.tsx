@@ -1,4 +1,6 @@
 import type { ReactNode, SVGProps } from 'react'
+import { NavLink } from 'react-router-dom'
+import { useResponsiveLayout } from '@renderer/components/layout/useResponsiveLayout'
 
 import {
   activeTasks,
@@ -20,8 +22,6 @@ import type { ChatMessage, LabelItem, NavIconKey, NavItem, SummaryRow, Task } fr
 type IconProps = SVGProps<SVGSVGElement>
 
 type NavigationMode = 'mobile-top' | 'tablet-rail' | 'desktop-sidebar'
-
-type WorkspaceMode = 'mobile' | 'tablet' | 'desktop'
 
 export function NavigationPanel({ mode }: { mode: NavigationMode }) {
   if (mode === 'mobile-top') {
@@ -48,17 +48,20 @@ export function NavigationPanel({ mode }: { mode: NavigationMode }) {
 
         <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1">
           {navigationItems.map(item => (
-            <button
+            <NavLink
               key={item.label}
-              className={`flex h-11 min-w-[44px] items-center justify-center rounded-2xl ${
-                item.active
-                  ? 'bg-[var(--petal-light)] text-[var(--petal)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]'
-                  : 'bg-white/72 text-[var(--ink-faint)] hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]'
-              }`}
+              to={item.path}
               aria-label={item.label}
+              className={({ isActive }) =>
+                `flex h-11 min-w-[44px] items-center justify-center rounded-2xl ${
+                  isActive
+                    ? 'bg-[var(--petal-light)] text-[var(--petal)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]'
+                    : 'bg-white/72 text-[var(--ink-faint)] hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]'
+                }`
+              }
             >
               <HomeIcon icon={item.icon} className="h-5 w-5" />
-            </button>
+            </NavLink>
           ))}
           <button className="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-white/72 text-[var(--ink-faint)] hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]">
             <SettingsIcon className="h-5 w-5" />
@@ -75,17 +78,20 @@ export function NavigationPanel({ mode }: { mode: NavigationMode }) {
           <FlowerIcon className="h-[22px] w-[22px]" />
         </div>
         {navigationItems.map(item => (
-          <button
+          <NavLink
             key={item.label}
-            className={`nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] ${
-              item.active
-                ? 'bg-[var(--petal-light)] text-[var(--petal)]'
-                : 'text-[var(--ink-faint)] hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]'
-            }`}
+            to={item.path}
             aria-label={item.label}
+            className={({ isActive }) =>
+              `nav-item mb-2 flex h-12 w-12 items-center justify-center rounded-[18px] ${
+                isActive
+                  ? 'bg-[var(--petal-light)] text-[var(--petal)]'
+                  : 'text-[var(--ink-faint)] hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]'
+              }`
+            }
           >
             <HomeIcon icon={item.icon} className="h-5 w-5" />
-          </button>
+          </NavLink>
         ))}
         <div className="my-3 h-px w-9 bg-[rgba(196,115,122,0.12)]" />
         <button className="nav-item mt-auto flex h-12 w-12 items-center justify-center rounded-[18px] text-[var(--ink-faint)] hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]">
@@ -180,7 +186,8 @@ export function NavigationPanel({ mode }: { mode: NavigationMode }) {
   )
 }
 
-export function MainTaskWorkspace({ mode }: { mode: WorkspaceMode }) {
+export function TodayView() {
+  const mode = useResponsiveLayout()
   const isDesktop = mode === 'desktop'
   const isMobile = mode === 'mobile'
   const isEmptyWorkspace =
@@ -421,6 +428,71 @@ export function MainTaskWorkspace({ mode }: { mode: WorkspaceMode }) {
   )
 }
 
+export function UpcomingView() {
+  return (
+    <PlaceholderView
+      title="即将到来"
+      icon="upcoming"
+      description="即将到来的任务列表将显示在这里。"
+    />
+  )
+}
+
+export function SummaryView() {
+  return (
+    <PlaceholderView
+      title="汇总中心"
+      icon="summary"
+      description="日报、周报和述职草稿的汇总将显示在这里。"
+    />
+  )
+}
+
+export function SlideshowView() {
+  return (
+    <PlaceholderView
+      title="述职工作台"
+      icon="slideshow"
+      description="述职汇报的幻灯片工作台将显示在这里。"
+    />
+  )
+}
+
+export function ProjectsView() {
+  return (
+    <PlaceholderView title="项目" icon="folder" description="所有项目的任务归档将显示在这里。" />
+  )
+}
+
+function PlaceholderView({
+  title,
+  icon,
+  description,
+}: {
+  title: string
+  icon: NavIconKey
+  description: string
+}) {
+  return (
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col items-center justify-center gap-5 px-8 py-16 text-center">
+        <div className="flex h-16 w-16 items-center justify-center rounded-[28px] bg-gradient-to-br from-[var(--petal-light)] to-[var(--teal-xlight)] shadow-[var(--shadow-lift-sm)]">
+          <HomeIcon icon={icon} className="h-7 w-7 text-[var(--petal)]" />
+        </div>
+        <div>
+          <h2 className="text-[22px] font-medium tracking-[-0.02em] text-[var(--ink)]">{title}</h2>
+          <p className="mt-2 max-w-sm text-[14px] leading-6 text-[var(--ink-muted)]">
+            {description}
+          </p>
+        </div>
+        <span className="rounded-full border border-[rgba(196,115,122,0.18)] bg-white/70 px-4 py-1.5 text-[12px] font-medium text-[var(--petal)]">
+          即将开放
+        </span>
+      </div>
+    </section>
+  )
+}
+
 export function DesktopAiPanel() {
   return (
     <aside className="glass-deep relative flex w-full flex-col overflow-hidden border-t border-[rgba(196,115,122,0.1)] shadow-[0_-1px_24px_rgba(28,22,20,0.04)] lg:h-full lg:w-[360px] lg:flex-shrink-0 lg:border-l lg:border-t-0 lg:shadow-[-1px_0_24px_rgba(28,22,20,0.04)]">
@@ -620,49 +692,56 @@ function AiInputBar({ mobile = false }: { mobile?: boolean }) {
 
 function SidebarNavItem({ item }: { item: NavItem }) {
   return (
-    <button
-      className={`nav-item group relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-2.5 text-left text-[14px] ${item.active ? 'bg-[var(--petal-light)] text-[var(--petal)]' : 'text-[var(--ink-muted)] hover:bg-[var(--petal-xlight)]'}`}
+    <NavLink
+      to={item.path}
+      className={({ isActive }) =>
+        `nav-item group relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-2.5 text-left text-[14px] ${isActive ? 'bg-[var(--petal-light)] text-[var(--petal)]' : 'text-[var(--ink-muted)] hover:bg-[var(--petal-xlight)]'}`
+      }
     >
-      {item.active ? (
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[rgba(196,115,122,0.08)] to-transparent" />
-      ) : null}
-      <HomeIcon
-        icon={item.icon}
-        className={`relative h-[18px] w-[18px] ${item.active ? 'text-[var(--petal)]' : 'text-[var(--ink-faint)] group-hover:text-[var(--petal)]'}`}
-      />
-      <span className={`relative flex-1 ${item.active ? 'font-semibold' : ''}`}>{item.label}</span>
-      {item.active ? (
-        <svg viewBox="0 0 22 22" className="relative h-[22px] w-[22px]">
-          <circle
-            cx="11"
-            cy="11"
-            r="8"
-            fill="none"
-            stroke="rgba(196,115,122,0.2)"
-            strokeWidth="2.5"
+      {({ isActive }) => (
+        <>
+          {isActive ? (
+            <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[rgba(196,115,122,0.08)] to-transparent" />
+          ) : null}
+          <HomeIcon
+            icon={item.icon}
+            className={`relative h-[18px] w-[18px] ${isActive ? 'text-[var(--petal)]' : 'text-[var(--ink-faint)] group-hover:text-[var(--petal)]'}`}
           />
-          <circle
-            cx="11"
-            cy="11"
-            r="8"
-            fill="none"
-            stroke="var(--petal)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeDasharray="50.27"
-            strokeDashoffset="18"
-            transform="rotate(-90 11 11)"
-          />
-        </svg>
-      ) : null}
-      {!item.active && item.badge ? (
-        <span
-          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${item.label === '即将到来' ? 'bg-[rgba(232,168,124,0.15)] text-[#c48240]' : 'bg-[var(--petal-xlight)] text-[var(--petal)]'}`}
-        >
-          {item.badge}
-        </span>
-      ) : null}
-    </button>
+          <span className={`relative flex-1 ${isActive ? 'font-semibold' : ''}`}>{item.label}</span>
+          {isActive ? (
+            <svg viewBox="0 0 22 22" className="relative h-[22px] w-[22px]">
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+                fill="none"
+                stroke="rgba(196,115,122,0.2)"
+                strokeWidth="2.5"
+              />
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+                fill="none"
+                stroke="var(--petal)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="50.27"
+                strokeDashoffset="18"
+                transform="rotate(-90 11 11)"
+              />
+            </svg>
+          ) : null}
+          {!isActive && item.badge ? (
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${item.label === '即将到来' ? 'bg-[rgba(232,168,124,0.15)] text-[#c48240]' : 'bg-[var(--petal-xlight)] text-[var(--petal)]'}`}
+            >
+              {item.badge}
+            </span>
+          ) : null}
+        </>
+      )}
+    </NavLink>
   )
 }
 

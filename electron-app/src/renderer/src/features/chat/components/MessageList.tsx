@@ -14,7 +14,7 @@ export default function MessageList() {
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-gray-600 select-none gap-2">
+      <div className="flex-1 flex flex-col items-center justify-center text-[#a49494] select-none gap-2">
         <div className="text-3xl">✦</div>
         <p className="text-sm">开始一段对话吧</p>
       </div>
@@ -22,7 +22,7 @@ export default function MessageList() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+    <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
       {messages.map(msg => (
         <MessageItem key={msg.id} message={msg} />
       ))}

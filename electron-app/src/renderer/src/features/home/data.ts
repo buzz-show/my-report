@@ -3,11 +3,11 @@ import type { ChatMessage, LabelItem, NavItem, SummaryRow, Task } from './types'
 export const userName = '田中米亚'
 
 export const navigationItems: NavItem[] = [
-  { label: '今日任务', active: true, icon: 'today' },
-  { label: '即将到来', icon: 'upcoming' },
-  { label: '汇总中心', icon: 'summary' },
-  { label: '述职工作台', icon: 'slideshow' },
-  { label: '项目', icon: 'folder' },
+  { label: '今日任务', path: '/today', icon: 'today' },
+  { label: '即将到来', path: '/upcoming', icon: 'upcoming' },
+  { label: '汇总中心', path: '/summary', icon: 'summary' },
+  { label: '述职工作台', path: '/slideshow', icon: 'slideshow' },
+  { label: '项目', path: '/projects', icon: 'folder' },
 ]
 
 export const labelItems: LabelItem[] = [
