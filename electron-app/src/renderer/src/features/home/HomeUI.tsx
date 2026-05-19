@@ -3,27 +3,26 @@ import { NavLink } from 'react-router-dom'
 import { useResponsiveLayout } from '@renderer/components/layout/useResponsiveLayout'
 
 import {
-  activeTasks,
   chips,
-  completedTasks,
   emptyStateFlow,
   emptyStateHighlights,
   emptyStateSuggestions,
   labelItems,
   messages,
   navigationItems,
-  pendingTasks,
   summaryRows,
-  upcomingTasks,
   userName,
 } from './data'
 import type { ChatMessage, LabelItem, NavIconKey, NavItem, SummaryRow, Task } from './types'
+import NewTaskModal from './components/NewTaskModal'
+import { useTaskStore } from './store/taskStore'
 
 type IconProps = SVGProps<SVGSVGElement>
 
 type NavigationMode = 'mobile-top' | 'tablet-rail' | 'desktop-sidebar'
 
 export function NavigationPanel({ mode }: { mode: NavigationMode }) {
+  const openModal = useTaskStore(s => s.openModal)
   if (mode === 'mobile-top') {
     return (
       <nav className="glass-deep rounded-[28px] border border-[rgba(196,115,122,0.12)] px-3 py-3 shadow-[var(--shadow-lift-sm)]">
@@ -41,7 +40,10 @@ export function NavigationPanel({ mode }: { mode: NavigationMode }) {
               </p>
             </div>
           </div>
-          <button className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[rgba(196,115,122,0.12)] bg-white/70 text-[var(--petal)]">
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[rgba(196,115,122,0.12)] bg-white/70 text-[var(--petal)]"
+            onClick={openModal}
+          >
             <PlusIcon className="h-4 w-4" />
           </button>
         </div>
@@ -120,7 +122,10 @@ export function NavigationPanel({ mode }: { mode: NavigationMode }) {
       </div>
 
       <div className="px-4 pb-5">
-        <button className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--petal)] py-2.5 text-[13px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_16px_rgba(196,115,122,0.32)] transition-all hover:bg-[#b56870] hover:shadow-[0_6px_20px_rgba(196,115,122,0.4)] active:scale-[0.98]">
+        <button
+          onClick={openModal}
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--petal)] py-2.5 text-[13px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_16px_rgba(196,115,122,0.32)] transition-all hover:bg-[#b56870] hover:shadow-[0_6px_20px_rgba(196,115,122,0.4)] active:scale-[0.98]"
+        >
           <PlusIcon className="h-4 w-4" />
           新建今日待办
         </button>
@@ -190,11 +195,12 @@ export function TodayView() {
   const mode = useResponsiveLayout()
   const isDesktop = mode === 'desktop'
   const isMobile = mode === 'mobile'
-  const isEmptyWorkspace =
-    pendingTasks.length === 0 &&
-    activeTasks.length === 0 &&
-    completedTasks.length === 0 &&
-    upcomingTasks.length === 0
+  const { tasks, openModal, completeTask } = useTaskStore()
+  const pendingTasks = tasks.filter(t => !t.doneAt && !t.note)
+  const activeTasks = tasks.filter(t => !t.doneAt && !!t.note)
+  const completedTasks = tasks.filter(t => !!t.doneAt)
+  const upcomingTasks: Task[] = []
+  const isEmptyWorkspace = tasks.length === 0
 
   return (
     <section className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -217,6 +223,7 @@ export function TodayView() {
             <h2
               className={`font-light leading-[1.1] tracking-[-0.03em] text-[var(--ink)] ${isMobile ? 'text-[28px]' : isDesktop ? 'text-[32px] md:text-[36px]' : 'text-[34px]'} ${isEmptyWorkspace ? 'mt-2' : ''}`}
             >
+              {/* TODO: 显示模型生成的问候语 */}
               早安，<span className="font-medium text-[var(--petal)]">{userName}</span>
             </h2>
             <p
@@ -408,22 +415,46 @@ export function TodayView() {
 
       <div className={`flex-1 overflow-y-auto px-5 pb-8 ${isDesktop ? 'md:px-8' : ''}`}>
         {isEmptyWorkspace ? (
-          <EmptyWorkspaceState isDesktop={isDesktop} isMobile={isMobile} />
+          <EmptyWorkspaceState isDesktop={isDesktop} isMobile={isMobile} onNewTask={openModal} />
         ) : (
           <div className="space-y-6">
-            <TaskSection title="待开始" badge="2 项待开始" tasks={pendingTasks} />
-            <TaskSection title="进行中" badge="2 项进行中" tasks={activeTasks} />
-            <TaskSection
-              title="已完成"
-              badge="3 项已完成"
-              badgeTone="teal"
-              tasks={completedTasks}
-              completed
-            />
-            <TaskSection title="即将到来" tasks={upcomingTasks} upcoming />
+            {pendingTasks.length > 0 && (
+              <TaskSection
+                title="待开始"
+                badge={`${pendingTasks.length} 项待开始`}
+                tasks={pendingTasks}
+                onComplete={completeTask}
+              />
+            )}
+            {activeTasks.length > 0 && (
+              <TaskSection
+                title="进行中"
+                badge={`${activeTasks.length} 项进行中`}
+                tasks={activeTasks}
+                onComplete={completeTask}
+              />
+            )}
+            {completedTasks.length > 0 && (
+              <TaskSection
+                title="已完成"
+                badge={`${completedTasks.length} 项已完成`}
+                badgeTone="teal"
+                tasks={completedTasks}
+                completed
+              />
+            )}
+            {upcomingTasks.length > 0 && (
+              <TaskSection
+                title="即将到来"
+                tasks={upcomingTasks}
+                upcoming
+                onComplete={completeTask}
+              />
+            )}
           </div>
         )}
       </div>
+      <NewTaskModal />
     </section>
   )
 }
@@ -817,7 +848,15 @@ function EmptyStatTile({
   )
 }
 
-function EmptyWorkspaceState({ isDesktop, isMobile }: { isDesktop: boolean; isMobile: boolean }) {
+function EmptyWorkspaceState({
+  isDesktop,
+  isMobile,
+  onNewTask,
+}: {
+  isDesktop: boolean
+  isMobile: boolean
+  onNewTask: () => void
+}) {
   return (
     <section className="space-y-4">
       <div className="glass-deep relative overflow-hidden rounded-[28px] border border-[rgba(196,115,122,0.12)] p-5 shadow-[0_8px_32px_rgba(28,22,20,0.06),0_16px_48px_rgba(196,115,122,0.08)] md:p-6">
@@ -841,7 +880,10 @@ function EmptyWorkspaceState({ isDesktop, isMobile }: { isDesktop: boolean; isMo
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-2.5">
-              <button className="flex items-center gap-2 rounded-xl bg-[var(--petal)] px-4 py-2.5 text-[14px] font-semibold text-white shadow-[0_6px_20px_rgba(196,115,122,0.28)] transition-all hover:bg-[#b56870] active:scale-[0.98]">
+              <button
+                onClick={onNewTask}
+                className="flex items-center gap-2 rounded-xl bg-[var(--petal)] px-4 py-2.5 text-[14px] font-semibold text-white shadow-[0_6px_20px_rgba(196,115,122,0.28)] transition-all hover:bg-[#b56870] active:scale-[0.98]"
+              >
                 <PlusIcon className="h-4 w-4" />
                 新建第一条待办
               </button>
@@ -910,6 +952,7 @@ function TaskSection({
   completed = false,
   upcoming = false,
   badgeTone = 'petal',
+  onComplete,
 }: {
   title: string
   badge?: string
@@ -917,6 +960,7 @@ function TaskSection({
   completed?: boolean
   upcoming?: boolean
   badgeTone?: 'petal' | 'teal'
+  onComplete?: (id: string) => void
 }) {
   return (
     <section>
@@ -936,7 +980,13 @@ function TaskSection({
 
       <div className="space-y-2.5">
         {tasks.map(task => (
-          <TaskCard key={task.title} task={task} completed={completed} upcoming={upcoming} />
+          <TaskCard
+            key={task.id}
+            task={task}
+            completed={completed}
+            upcoming={upcoming}
+            onComplete={onComplete}
+          />
         ))}
       </div>
     </section>
@@ -947,10 +997,12 @@ function TaskCard({
   task,
   completed = false,
   upcoming = false,
+  onComplete,
 }: {
   task: Task
   completed?: boolean
   upcoming?: boolean
+  onComplete?: (id: string) => void
 }) {
   if (completed) {
     return (
@@ -977,6 +1029,7 @@ function TaskCard({
       className={`task-card ${priorityClass(task.priority)} flex items-start gap-4 rounded-xl border p-4 ${upcoming ? 'glass border-[rgba(196,115,122,0.08)] hover:border-[rgba(196,115,122,0.2)]' : 'glass border-[rgba(196,115,122,0.1)] hover:border-[rgba(196,115,122,0.22)]'}`}
     >
       <button
+        onClick={() => onComplete?.(task.id)}
         className={`mt-0.5 h-5 w-5 flex-shrink-0 rounded-full border-2 transition-all ${toggleClass(task.priority)}`}
       />
       <div className="min-w-0 flex-1">
