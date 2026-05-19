@@ -3,6 +3,7 @@ import { CHANNELS } from '@shared/constants/ipc-channels'
 import type { LoginPayload, SessionView } from '@shared/types'
 
 import {
+  getValidAccessToken,
   loginWithRuntime,
   logoutFromRuntime,
   restoreSession,
@@ -27,21 +28,24 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 let _session: SessionView | null = null
 
 export function registerAuthHandlers(): void {
-  ipcMain.handle(CHANNELS.AUTH_LOGIN, async (_event, payload: LoginPayload): Promise<SessionView> => {
-    const { email, password } = payload ?? {}
+  ipcMain.handle(
+    CHANNELS.AUTH_LOGIN,
+    async (_event, payload: LoginPayload): Promise<SessionView> => {
+      const { email, password } = payload ?? {}
 
-    // 安全边界：邮箱格式校验
-    if (!email || typeof email !== 'string' || !EMAIL_RE.test(email.trim())) {
-      throw new Error('请输入有效邮箱')
-    }
-    if (!password || typeof password !== 'string' || password.length === 0) {
-      throw new Error('密码不能为空')
-    }
+      // 安全边界：邮箱格式校验
+      if (!email || typeof email !== 'string' || !EMAIL_RE.test(email.trim())) {
+        throw new Error('请输入有效邮箱')
+      }
+      if (!password || typeof password !== 'string' || password.length === 0) {
+        throw new Error('密码不能为空')
+      }
 
-    const normalizedEmail = email.trim().toLowerCase()
-    _session = await loginWithRuntime({ email: normalizedEmail, password })
-    return _session
-  })
+      const normalizedEmail = email.trim().toLowerCase()
+      _session = await loginWithRuntime({ email: normalizedEmail, password })
+      return _session
+    }
+  )
 
   ipcMain.handle(CHANNELS.AUTH_LOGOUT, async (): Promise<void> => {
     await logoutFromRuntime()
@@ -56,5 +60,8 @@ export function registerAuthHandlers(): void {
     }
     return _session
   })
-}
 
+  ipcMain.handle(CHANNELS.AUTH_GET_ACCESS_TOKEN, async (): Promise<string | null> => {
+    return getValidAccessToken()
+  })
+}

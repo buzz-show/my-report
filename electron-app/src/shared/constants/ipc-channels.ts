@@ -16,6 +16,8 @@ export const CHANNELS = {
   AUTH_LOGIN: 'auth:login',
   AUTH_LOGOUT: 'auth:logout',
   AUTH_GET_SESSION: 'auth:getSession',
+  AUTH_GET_ACCESS_TOKEN: 'auth:getAccessToken',
+  RUNTIME_GET_BASE_URL: 'runtime:getBaseUrl',
 } as const
 
 export type Channel = (typeof CHANNELS)[keyof typeof CHANNELS]

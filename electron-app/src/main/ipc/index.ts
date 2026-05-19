@@ -1,6 +1,7 @@
 import { registerChatHandlers } from './chat'
 import { registerSettingsHandlers } from './settings'
 import { registerAuthHandlers } from './auth'
+import { registerRuntimeHandlers } from './runtime'
 
 /**
  * 统一 IPC 注册入口
@@ -12,4 +13,5 @@ export function registerAll(): void {
   registerChatHandlers()
   registerSettingsHandlers()
   registerAuthHandlers()
+  registerRuntimeHandlers()
 }

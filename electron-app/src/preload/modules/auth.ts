@@ -14,4 +14,8 @@ export const authBridge = {
   getSession: (): Promise<SessionView | null> => {
     return ipcRenderer.invoke(CHANNELS.AUTH_GET_SESSION)
   },
+
+  getAccessToken: (): Promise<string | null> => {
+    return ipcRenderer.invoke(CHANNELS.AUTH_GET_ACCESS_TOKEN)
+  },
 }

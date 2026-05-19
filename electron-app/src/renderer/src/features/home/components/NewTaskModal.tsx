@@ -95,6 +95,8 @@ export default function NewTaskModal() {
   const [priority, setPriority] = useState<Priority>('high')
   const [time, setTime] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   // Close on Escape
   useEffect(() => {
@@ -114,6 +116,8 @@ export default function NewTaskModal() {
       setPriority('high')
       setTime('')
       setSelectedTags([])
+      setSubmitting(false)
+      setSubmitError('')
     }
   }, [modalOpen])
 
@@ -123,18 +127,26 @@ export default function NewTaskModal() {
     setSelectedTags(prev => (prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]))
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const trimmedTitle = title.trim()
     if (!trimmedTitle) return
-    addTask({
-      title: trimmedTitle,
-      description: description.trim(),
-      priority,
-      badge: BADGE_MAP[priority],
-      time: time.trim() || '待定',
-      tags: selectedTags,
-    })
-    closeModal()
+    setSubmitting(true)
+    setSubmitError('')
+    try {
+      await addTask({
+        title: trimmedTitle,
+        description: description.trim(),
+        priority,
+        badge: BADGE_MAP[priority],
+        time: time.trim() || '待定',
+        tags: selectedTags,
+      })
+      closeModal()
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : '创建失败，请重试')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -304,6 +316,7 @@ export default function NewTaskModal() {
 
         {/* Footer */}
         <div className="flex items-center justify-end gap-2.5 border-t border-[rgba(196,115,122,0.1)] px-5 py-4">
+          {submitError && <p className="mr-auto text-[12px] text-[var(--petal)]">{submitError}</p>}
           <button
             onClick={closeModal}
             className="rounded-xl border border-[rgba(196,115,122,0.18)] bg-white/70 px-4 py-2 text-[13px] font-medium text-[var(--ink-muted)] transition-all hover:bg-[var(--petal-xlight)] hover:text-[var(--petal)]"
@@ -312,11 +325,11 @@ export default function NewTaskModal() {
           </button>
           <button
             onClick={handleSubmit}
-            disabled={!title.trim()}
+            disabled={!title.trim() || submitting}
             className="flex items-center gap-1.5 rounded-xl bg-[var(--petal)] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_2px_8px_rgba(196,115,122,0.35)] transition-all hover:bg-[#b56870] hover:shadow-[0_4px_12px_rgba(196,115,122,0.45)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <CheckSmIcon />
-            创建待办
+            {submitting ? '创建中…' : '创建待办'}
           </button>
         </div>
       </div>

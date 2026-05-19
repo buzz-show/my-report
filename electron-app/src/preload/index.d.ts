@@ -13,6 +13,7 @@ export interface AuthAPI {
   login: (payload: LoginPayload) => Promise<SessionView>
   logout: () => Promise<void>
   getSession: () => Promise<SessionView | null>
+  getAccessToken: () => Promise<string | null>
 }
 
 export interface ChatAPI {
@@ -29,10 +30,15 @@ export interface SettingsAPI {
   saveSettings: (payload: SettingsSavePayload) => Promise<void>
 }
 
+export interface RuntimeAPI {
+  getBaseUrl: () => Promise<string>
+}
+
 export interface ElectronAPI {
   auth: AuthAPI
   chat: ChatAPI
   settings: SettingsAPI
+  runtime: RuntimeAPI
 }
 
 declare global {

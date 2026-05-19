@@ -2,6 +2,7 @@ import { contextBridge } from 'electron'
 import { authBridge } from './modules/auth'
 import { chatBridge } from './modules/chat'
 import { settingsBridge } from './modules/settings'
+import { runtimeBridge } from './modules/runtime'
 
 /**
  * Preload — 安全桥梁
@@ -15,4 +16,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   auth: authBridge,
   chat: chatBridge,
   settings: settingsBridge,
+  runtime: runtimeBridge,
 })
