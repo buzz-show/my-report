@@ -5,3 +5,4 @@ coverage/
 .env
 *.local
 bin/
+e2e/report/
